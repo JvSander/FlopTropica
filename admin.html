@@ -1,0 +1,1170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlopTropica • Painel Administrativo</title>
+    <meta name="description" content="Painel administrativo do FlopTropica Awards para gerenciamento de conteúdo.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a26;
+            --bg-input: #14141e;
+            --border: #2a2a3a;
+            --border-focus: #7c3aed;
+            --accent: #7c3aed;
+            --accent-light: #a78bfa;
+            --accent-glow: rgba(124, 58, 237, 0.25);
+            --text-primary: #e4e4ec;
+            --text-secondary: #8888a0;
+            --text-muted: #55556a;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --radius: 12px;
+            --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        ::selection {
+            background: rgba(124, 58, 237, 0.3);
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 3px;
+        }
+
+        /* ===== LOGIN SCREEN ===== */
+        .login-screen {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .login-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5), 0 0 80px var(--accent-glow);
+            text-align: center;
+        }
+
+        .login-box .logo-badge {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+
+        .login-box h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-box p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .login-error {
+            display: none;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            color: var(--danger);
+            font-size: 0.8rem;
+        }
+
+        /* ===== FORM ELEMENTS ===== */
+        .form-group {
+            margin-bottom: 1.25rem;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.875rem;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            border-color: var(--border-focus);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        option {
+            background: var(--bg-card);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-family: inherit;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition);
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), #9333ea);
+            color: #fff;
+            box-shadow: 0 4px 15px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.25);
+        }
+
+        .btn-secondary {
+            background: var(--bg-input);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--text-primary);
+        }
+
+        .btn-sm {
+            padding: 0.45rem 0.9rem;
+            font-size: 0.72rem;
+        }
+
+        .btn-full {
+            width: 100%;
+            justify-content: center;
+            padding: 0.85rem;
+            font-size: 0.9rem;
+        }
+
+        /* ===== DASHBOARD LAYOUT ===== */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard.active {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 260px;
+            min-height: 100vh;
+            padding: 1.5rem 0;
+            background: var(--bg-secondary);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-logo .badge {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), #a78bfa);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.7rem;
+            color: #fff;
+        }
+
+        .sidebar-logo span {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--accent-light);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+        }
+
+        .nav-section-title {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 0.75rem 1.5rem 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 1.5rem;
+            margin: 2px 0.75rem;
+            border-radius: 10px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all var(--transition);
+            border: none;
+            background: none;
+            width: calc(100% - 1.5rem);
+            text-align: left;
+        }
+
+        .nav-item:hover {
+            background: rgba(124, 58, 237, 0.08);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            background: rgba(124, 58, 237, 0.15);
+            color: var(--accent-light);
+        }
+
+        .nav-item .icon {
+            font-size: 1.1rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .sidebar-user {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-user .avatar {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: #fff;
+        }
+
+        .sidebar-user .info {
+            flex: 1;
+        }
+
+        .sidebar-user .info .name {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .sidebar-user .info .role {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            padding: 2rem 2.5rem;
+            max-width: calc(100% - 260px);
+        }
+
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .page-header p {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: border-color var(--transition);
+        }
+
+        .card:hover {
+            border-color: rgba(124, 58, 237, 0.2);
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 1.25rem;
+        }
+
+        .stat-card .label {
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .stat-card .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--accent-light);
+            margin-top: 0.25rem;
+        }
+
+        /* ===== TABLE ===== */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: left;
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            font-size: 0.82rem;
+            border-bottom: 1px solid rgba(42, 42, 58, 0.5);
+            vertical-align: middle;
+        }
+
+        tr:hover td {
+            background: rgba(124, 58, 237, 0.04);
+        }
+
+        .member-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .member-cell img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
+        /* ===== SECTIONS ===== */
+        .section-panel {
+            display: none;
+        }
+
+        .section-panel.active {
+            display: block;
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 500;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            width: 90%;
+            max-width: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2rem;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal h2 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .toast {
+            padding: 0.85rem 1.25rem;
+            border-radius: var(--radius);
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            animation: toastIn 0.4s ease forwards;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.success {
+            background: linear-gradient(135deg, #16a34a, #15803d);
+        }
+
+        .toast.error {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                min-height: auto;
+                flex-direction: row;
+                flex-wrap: wrap;
+                padding: 1rem;
+            }
+
+            .sidebar-logo {
+                margin-bottom: 0.5rem;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                flex-wrap: wrap;
+                gap: 0.25rem;
+            }
+
+            .nav-section-title {
+                display: none;
+            }
+
+            .nav-item {
+                margin: 0;
+                padding: 0.5rem 0.75rem;
+                font-size: 0.7rem;
+            }
+
+            .main-content {
+                margin-left: 0;
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+
+            .sidebar-user {
+                width: 100%;
+            }
+
+            .dashboard.active {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== LOGIN SCREEN ===== -->
+    <div class="login-screen" id="loginScreen">
+        <div class="login-box">
+            <div class="logo-badge">FT</div>
+            <h1>Acesso Administrativo</h1>
+            <p>Painel de gerenciamento FlopTropica</p>
+            <div class="login-error" id="loginError">Credenciais inválidas. Tente novamente.</div>
+            <form onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">Nome de Usuário</label>
+                    <input type="text" class="form-input" id="loginUser" placeholder="Seu nome de admin"
+                        autocomplete="off" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Senha</label>
+                    <input type="password" class="form-input" id="loginPass" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-full" style="margin-top:0.5rem">🔐 ENTRAR</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ===== DASHBOARD ===== -->
+    <div class="dashboard" id="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <div class="badge">FT</div>
+                <span>Admin Panel</span>
+            </div>
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">Gerenciamento</div>
+                <button class="nav-item active" onclick="switchSection('countdown', this)"><span class="icon">⏱</span>
+                    Contagem Regressiva</button>
+                <button class="nav-item" onclick="switchSection('members', this)"><span class="icon">👥</span>
+                    Membros</button>
+                <button class="nav-item" onclick="switchSection('stars', this)"><span class="icon">⭐</span> Estrelas da
+                    Temporada</button>
+                <button class="nav-item" onclick="switchSection('rankflop', this)"><span class="icon">🏆</span>
+                    RankFlop</button>
+            </nav>
+            <div class="sidebar-user">
+                <div class="avatar" id="userAvatar">A</div>
+                <div class="info">
+                    <div class="name" id="userName">Admin</div>
+                    <div class="role">Administrador</div>
+                </div>
+                <button class="btn btn-sm btn-secondary" onclick="logout()" title="Sair"
+                    style="margin-left:auto;padding:0.4rem 0.6rem;">↗</button>
+            </div>
+        </aside>
+
+        <!-- Main -->
+        <main class="main-content">
+
+            <!-- COUNTDOWN SECTION -->
+            <div class="section-panel active" id="sec-countdown">
+                <div class="page-header">
+                    <h1>⏱ Contagem Regressiva</h1>
+                    <p>Defina a data alvo da contagem regressiva no site principal.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">📅 Data e Hora do Evento</div>
+                    <div class="form-group">
+                        <label class="form-label">Data e Hora</label>
+                        <input type="datetime-local" class="form-input" id="countdownDate">
+                    </div>
+                    <button class="btn btn-primary" onclick="saveCountdown()">💾 Salvar Data</button>
+                </div>
+            </div>
+
+            <!-- MEMBERS SECTION -->
+            <div class="section-panel" id="sec-members">
+                <div class="page-header"
+                    style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+                    <div>
+                        <h1>👥 Membros</h1>
+                        <p>Gerencie os membros exibidos no carrossel do site.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openMemberModal()">➕ Novo Membro</button>
+                </div>
+                <div class="stat-grid" id="memberStats"></div>
+                <div class="card">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Membro</th>
+                                    <th>Subtítulo</th>
+                                    <th>Indicações</th>
+                                    <th>Vitórias</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="membersTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STARS SECTION -->
+            <div class="section-panel" id="sec-stars">
+                <div class="page-header"
+                    style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+                    <div>
+                        <h1>⭐ Estrelas da Temporada</h1>
+                        <p>Configure os destaques mensais.</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="openStarModal()">➕ Nova Estrela</button>
+                </div>
+                <div class="form-group" style="max-width:250px;margin-bottom:1.5rem">
+                    <label class="form-label">Mês</label>
+                    <select class="form-select" id="starMonthSelect" onchange="renderStarsAdmin()">
+                        <option value="0">Março 2026</option>
+                        <option value="1">Fevereiro 2026</option>
+                        <option value="2">Janeiro 2026</option>
+                    </select>
+                </div>
+                <div class="card">
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Estrela</th>
+                                    <th>Título</th>
+                                    <th>Vitórias</th>
+                                    <th>Indicações</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="starsTable"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RANKFLOP SECTION -->
+            <div class="section-panel" id="sec-rankflop">
+                <div class="page-header">
+                    <h1>🏆 RankFlop</h1>
+                    <p>Altere o pódio (Top 3) e seus detalhes.</p>
+                </div>
+                <div id="rankflopCards"></div>
+            </div>
+        </main>
+    </div>
+
+    <!-- MEMBER MODAL -->
+    <div class="modal-overlay" id="memberModal">
+        <div class="modal">
+            <h2 id="memberModalTitle">Novo Membro</h2>
+            <input type="hidden" id="editMemberIdx" value="-1">
+            <div class="form-group"><label class="form-label">Nome</label><input type="text" class="form-input"
+                    id="mName"></div>
+            <div class="form-group"><label class="form-label">Subtítulo</label><input type="text" class="form-input"
+                    id="mSubtitle"></div>
+            <div class="form-group"><label class="form-label">URL da Imagem</label><input type="text" class="form-input"
+                    id="mImg"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label class="form-label">Indicações</label><input type="number"
+                        class="form-input" id="mIndicacoes" min="0"></div>
+                <div class="form-group"><label class="form-label">Vitórias</label><input type="number"
+                        class="form-input" id="mVitorias" min="0"></div>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
+                <button class="btn btn-primary" onclick="saveMember()">💾 Salvar</button>
+                <button class="btn btn-secondary" onclick="closeModal('memberModal')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAR MODAL -->
+    <div class="modal-overlay" id="starModal">
+        <div class="modal">
+            <h2 id="starModalTitle">Nova Estrela</h2>
+            <input type="hidden" id="editStarIdx" value="-1">
+            <div class="form-group"><label class="form-label">Nome</label><input type="text" class="form-input"
+                    id="sName"></div>
+            <div class="form-group"><label class="form-label">Título (ex: MVP do Mês)</label><input type="text"
+                    class="form-input" id="sTitle"></div>
+            <div class="form-group"><label class="form-label">Motivo</label><textarea class="form-textarea"
+                    id="sReason"></textarea></div>
+            <div class="form-group"><label class="form-label">URL da Imagem</label><input type="text" class="form-input"
+                    id="sImg"></div>
+            <div class="form-group"><label class="form-label">Emoji</label><input type="text" class="form-input"
+                    id="sEmoji" placeholder="👑"></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label class="form-label">Vitórias</label><input type="number"
+                        class="form-input" id="sWins" min="0"></div>
+                <div class="form-group"><label class="form-label">Indicações</label><input type="number"
+                        class="form-input" id="sNominations" min="0"></div>
+            </div>
+            <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
+                <button class="btn btn-primary" onclick="saveStar()">💾 Salvar</button>
+                <button class="btn btn-secondary" onclick="closeModal('starModal')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RANKFLOP MODAL -->
+    <div class="modal-overlay" id="rankflopModal">
+        <div class="modal">
+            <h2>Editar Posição do RankFlop</h2>
+            <input type="hidden" id="editRankIdx" value="-1">
+            <div class="form-group"><label class="form-label">Nome</label><input type="text" class="form-input"
+                    id="rName"></div>
+            <div class="form-group"><label class="form-label">URL da Imagem</label><input type="text" class="form-input"
+                    id="rImg"></div>
+            <div class="form-group"><label class="form-label">Vitórias</label><input type="number" class="form-input"
+                    id="rVitorias" min="0"></div>
+            <div class="form-group"><label class="form-label">Troféu 1</label><input type="text" class="form-input"
+                    id="rTrophy1"></div>
+            <div class="form-group"><label class="form-label">Troféu 2</label><input type="text" class="form-input"
+                    id="rTrophy2"></div>
+            <div class="form-group"><label class="form-label">Troféu 3</label><input type="text" class="form-input"
+                    id="rTrophy3"></div>
+            <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
+                <button class="btn btn-primary" onclick="saveRankflop()">💾 Salvar</button>
+                <button class="btn btn-secondary" onclick="closeModal('rankflopModal')">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // ===== ADMIN CREDENTIALS =====
+        const ADMINS = [
+            { user: 'Kadu', pass: 'kadu123' },
+            { user: 'Astro', pass: 'astro123' },
+            { user: '000', pass: '0000' }
+        ];
+
+        // ===== DEFAULT DATA =====
+        const DEFAULT_MEMBERS = [
+            { name: "GABS", subtitle: "Song Of The Year (GRAMMY)", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", indicacoes: 53, vitorias: 18 },
+            { name: "JUNO", subtitle: "FLOPTROPICA ICON", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", indicacoes: 39, vitorias: 14 },
+            { name: "MAXS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", indicacoes: 59, vitorias: 13 },
+            { name: "JANE BABADO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", indicacoes: 52, vitorias: 7 },
+            { name: "TEMERYS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", indicacoes: 52, vitorias: 10 },
+            { name: "PEAGA", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/a1/b1/bc/a1b1bcacccbf5763b963bea07884914d.gif", indicacoes: 22, vitorias: 3 },
+            { name: "ASTRO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", indicacoes: 43, vitorias: 10 },
+            { name: "KADU", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", indicacoes: 57, vitorias: 9 },
+            { name: "TWIGS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", indicacoes: 34, vitorias: 8 },
+            { name: "OLÁ GOSTARIA", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", indicacoes: 28, vitorias: 6 },
+            { name: "JV_SANDER", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/0c/77/b1/0c77b17836644990398a2066dae7ace9.gif", indicacoes: 19, vitorias: 4 },
+            { name: "VIRTUAL ANGEL", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/16/6d/ae/166dae7a017cdde26b6c4a163a833019.gif", indicacoes: 32, vitorias: 2 },
+            { name: "PIPO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/14/7a/2b/147a2b86f55c9d61a8c3868193366363.gif", indicacoes: 20, vitorias: 2 },
+            { name: "FLYER", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/79/0b/39/790b39d8d2786b3bc8bd3b5251a2f14b.gif", indicacoes: 15, vitorias: 2 },
+            { name: "JEFF", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/16/1b/e2/161be28fb727ad7f796f2c8bac86b6fd.gif", indicacoes: 19, vitorias: 0 },
+            { name: "FEBRE", subtitle: "FLOPTROPICA LEGEND", img: "https://i.scdn.co/image/ab676161000051740e53ff44ce2d3c035aa18d3c", indicacoes: 14, vitorias: 3 },
+            { name: "GABE", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/7e/ea/40/7eea40d4d4d4dbbed4949b63d321fef4.gif", indicacoes: 10, vitorias: 1 },
+            { name: "FERNANDES", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/65/f2/62/65f262f39fb5f947794940ef7e09f1e8.gif", indicacoes: 8, vitorias: 1 },
+            { name: "DANDELION", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/736x/a3/25/2b/a3252b02df64bb3374185426144939c1.jpg", indicacoes: 9, vitorias: 1 },
+            { name: "MENINO PERDIDO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/ad/a6/ae/ada6aec3892091d47b4482c724e3521d.gif", indicacoes: 7, vitorias: 0 },
+        ];
+
+        const DEFAULT_STARS = {
+            0: [
+                { name: "GABS", title: "MVP do Mês", reason: "Dominou todas as categorias", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", emoji: "👑", wins: 5, nominations: 12 },
+                { name: "JUNO", title: "Revelação do Mês", reason: "Surpreendeu a todos", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", emoji: "⭐", wins: 3, nominations: 8 },
+                { name: "MAXS", title: "Ícone do Mês", reason: "Presença marcante", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", emoji: "🔥", wins: 4, nominations: 10 }
+            ],
+            1: [
+                { name: "TEMERYS", title: "MVP do Mês", reason: "Liderou com maestria", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", emoji: "👑", wins: 4, nominations: 9 },
+                { name: "ASTRO", title: "Revelação do Mês", reason: "Brilhou intensamente", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", emoji: "⭐", wins: 3, nominations: 7 },
+                { name: "KADU", title: "Ícone do Mês", reason: "Consistência impressionante", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", emoji: "🔥", wins: 2, nominations: 8 }
+            ],
+            2: [
+                { name: "JANE BABADO", title: "MVP do Mês", reason: "Início de ano avassalador", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", emoji: "👑", wins: 3, nominations: 11 },
+                { name: "TWIGS", title: "Revelação do Mês", reason: "Performance brilhante", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", emoji: "⭐", wins: 2, nominations: 6 },
+                { name: "OLÁ GOSTARIA", title: "Ícone do Mês", reason: "Energia contagiante", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", emoji: "🔥", wins: 2, nominations: 5 }
+            ]
+        };
+
+        const DEFAULT_RANKFLOP = [
+            { name: "Gabs", img: "https://i.pinimg.com/736x/f3/66/37/f366371618753e91d644ff41db4080e9.jpg", vitorias: 18, trophies: ["Song Of The Year (GRAMMY)", "Best New Member (OSCAT)", "Moment Of The Year (TBOTY)"] },
+            { name: "Juno", img: "https://i.pinimg.com/736x/90/8c/11/908c1191ad490bd4ec564e92a61aaf9b.jpg", vitorias: 14, trophies: ["Member Of The Year (TBOTY)", "Album Of The Year (GRAMMY)", "Best Series (EMMY)"] },
+            { name: "Maxs", img: "https://i.pinimg.com/736x/07/ec/15/07ec156db667ad32c0608020306a511f.jpg", vitorias: 13, trophies: ["Best Pop Artist (GRAMMY)", "Melhor Atriz do Ano (GOLDEN GLOBE)", "Best Villain (EMMY)"] }
+        ];
+
+        // ===== DATA HELPERS =====
+        function getData(key, fallback) {
+            const d = localStorage.getItem('ft_admin_' + key);
+            return d ? JSON.parse(d) : JSON.parse(JSON.stringify(fallback));
+        }
+        function setData(key, val) { localStorage.setItem('ft_admin_' + key, JSON.stringify(val)); }
+
+        function getMembers() { return getData('members', DEFAULT_MEMBERS); }
+        function getStars() { return getData('stars', DEFAULT_STARS); }
+        function getRankflop() { return getData('rankflop', DEFAULT_RANKFLOP); }
+        function getCountdown() { return localStorage.getItem('ft_admin_countdown') || '2026-02-01T20:00'; }
+
+        // ===== TOAST =====
+        function toast(msg, type = 'success') {
+            const t = document.createElement('div');
+            t.className = 'toast ' + type;
+            t.innerHTML = (type === 'success' ? '✅' : '❌') + ' ' + msg;
+            document.getElementById('toastContainer').appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        // ===== LOGIN =====
+        function handleLogin(e) {
+            e.preventDefault();
+            const user = document.getElementById('loginUser').value.trim().toLowerCase();
+            const pass = document.getElementById('loginPass').value;
+            const admin = ADMINS.find(a => a.user === user && a.pass === pass);
+            if (admin) {
+                sessionStorage.setItem('ft_admin_session', admin.user);
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('userName').textContent = admin.user.charAt(0).toUpperCase() + admin.user.slice(1);
+                document.getElementById('userAvatar').textContent = admin.user.charAt(0).toUpperCase();
+                initDashboard();
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+        function logout() {
+            sessionStorage.removeItem('ft_admin_session');
+            location.reload();
+        }
+
+        // ===== CHECK SESSION =====
+        (function () {
+            const s = sessionStorage.getItem('ft_admin_session');
+            if (s) {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.add('active');
+                document.getElementById('userName').textContent = s.charAt(0).toUpperCase() + s.slice(1);
+                document.getElementById('userAvatar').textContent = s.charAt(0).toUpperCase();
+                setTimeout(initDashboard, 50);
+            }
+        })();
+
+        // ===== NAVIGATION =====
+        function switchSection(name, btn) {
+            document.querySelectorAll('.section-panel').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            document.getElementById('sec-' + name).classList.add('active');
+            btn.classList.add('active');
+        }
+        function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+        // ===== INIT =====
+        function initDashboard() {
+            document.getElementById('countdownDate').value = getCountdown();
+            renderMembersAdmin();
+            renderStarsAdmin();
+            renderRankflopAdmin();
+        }
+
+        // ===== COUNTDOWN =====
+        function saveCountdown() {
+            const val = document.getElementById('countdownDate').value;
+            if (!val) return toast('Selecione uma data', 'error');
+            localStorage.setItem('ft_admin_countdown', val);
+            toast('Data da contagem regressiva salva!');
+        }
+
+        // ===== MEMBERS =====
+        function renderMembersAdmin() {
+            const members = getMembers();
+            const tbody = document.getElementById('membersTable');
+            const totalV = members.reduce((s, m) => s + m.vitorias, 0);
+            const totalI = members.reduce((s, m) => s + m.indicacoes, 0);
+            document.getElementById('memberStats').innerHTML = `
+        <div class="stat-card"><div class="label">Total Membros</div><div class="value">${members.length}</div></div>
+        <div class="stat-card"><div class="label">Total Vitórias</div><div class="value">${totalV}</div></div>
+        <div class="stat-card"><div class="label">Total Indicações</div><div class="value">${totalI}</div></div>
+    `;
+            tbody.innerHTML = members.map((m, i) => `<tr>
+        <td><div class="member-cell"><img src="${m.img}" alt="${m.name}" loading="lazy"><span style="font-weight:600">${m.name}</span></div></td>
+        <td style="color:var(--text-secondary)">${m.subtitle}</td>
+        <td>${m.indicacoes}</td><td style="color:var(--accent-light);font-weight:700">${m.vitorias}</td>
+        <td><div style="display:flex;gap:0.4rem">
+            <button class="btn btn-sm btn-secondary" onclick="editMember(${i})">✏️</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteMember(${i})">🗑</button>
+        </div></td></tr>`).join('');
+        }
+
+        function openMemberModal(idx = -1) {
+            document.getElementById('editMemberIdx').value = idx;
+            document.getElementById('memberModalTitle').textContent = idx >= 0 ? 'Editar Membro' : 'Novo Membro';
+            if (idx >= 0) {
+                const m = getMembers()[idx];
+                document.getElementById('mName').value = m.name;
+                document.getElementById('mSubtitle').value = m.subtitle;
+                document.getElementById('mImg').value = m.img;
+                document.getElementById('mIndicacoes').value = m.indicacoes;
+                document.getElementById('mVitorias').value = m.vitorias;
+            } else {
+                ['mName', 'mSubtitle', 'mImg', 'mIndicacoes', 'mVitorias'].forEach(id => document.getElementById(id).value = '');
+            }
+            document.getElementById('memberModal').classList.add('active');
+        }
+        function editMember(i) { openMemberModal(i); }
+        function deleteMember(i) {
+            if (!confirm('Remover este membro?')) return;
+            const members = getMembers(); members.splice(i, 1);
+            setData('members', members); renderMembersAdmin(); toast('Membro removido.');
+        }
+        function saveMember() {
+            const idx = parseInt(document.getElementById('editMemberIdx').value);
+            const obj = {
+                name: document.getElementById('mName').value.trim(),
+                subtitle: document.getElementById('mSubtitle').value.trim(),
+                img: document.getElementById('mImg').value.trim(),
+                indicacoes: parseInt(document.getElementById('mIndicacoes').value) || 0,
+                vitorias: parseInt(document.getElementById('mVitorias').value) || 0
+            };
+            if (!obj.name) return toast('Nome é obrigatório', 'error');
+            const members = getMembers();
+            if (idx >= 0) members[idx] = obj; else members.push(obj);
+            setData('members', members); closeModal('memberModal'); renderMembersAdmin();
+            toast(idx >= 0 ? 'Membro atualizado!' : 'Membro adicionado!');
+        }
+
+        // ===== STARS =====
+        function renderStarsAdmin() {
+            const month = parseInt(document.getElementById('starMonthSelect').value);
+            const stars = getStars();
+            const list = stars[month] || [];
+            document.getElementById('starsTable').innerHTML = list.map((s, i) => `<tr>
+        <td><div class="member-cell"><img src="${s.img}" alt="${s.name}" loading="lazy"><span style="font-weight:600">${s.emoji} ${s.name}</span></div></td>
+        <td style="color:var(--text-secondary)">${s.title}</td>
+        <td>${s.wins}</td><td>${s.nominations}</td>
+        <td><div style="display:flex;gap:0.4rem">
+            <button class="btn btn-sm btn-secondary" onclick="editStar(${i})">✏️</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteStar(${i})">🗑</button>
+        </div></td></tr>`).join('') || '<tr><td colspan="5" style="text-align:center;color:var(--text-muted)">Nenhuma estrela neste mês.</td></tr>';
+        }
+
+        function openStarModal(idx = -1) {
+            document.getElementById('editStarIdx').value = idx;
+            document.getElementById('starModalTitle').textContent = idx >= 0 ? 'Editar Estrela' : 'Nova Estrela';
+            if (idx >= 0) {
+                const month = parseInt(document.getElementById('starMonthSelect').value);
+                const s = getStars()[month][idx];
+                document.getElementById('sName').value = s.name;
+                document.getElementById('sTitle').value = s.title;
+                document.getElementById('sReason').value = s.reason;
+                document.getElementById('sImg').value = s.img;
+                document.getElementById('sEmoji').value = s.emoji;
+                document.getElementById('sWins').value = s.wins;
+                document.getElementById('sNominations').value = s.nominations;
+            } else {
+                ['sName', 'sTitle', 'sReason', 'sImg', 'sEmoji', 'sWins', 'sNominations'].forEach(id => document.getElementById(id).value = '');
+            }
+            document.getElementById('starModal').classList.add('active');
+        }
+        function editStar(i) { openStarModal(i); }
+        function deleteStar(i) {
+            if (!confirm('Remover esta estrela?')) return;
+            const month = parseInt(document.getElementById('starMonthSelect').value);
+            const stars = getStars(); stars[month].splice(i, 1);
+            setData('stars', stars); renderStarsAdmin(); toast('Estrela removida.');
+        }
+        function saveStar() {
+            const idx = parseInt(document.getElementById('editStarIdx').value);
+            const month = parseInt(document.getElementById('starMonthSelect').value);
+            const obj = {
+                name: document.getElementById('sName').value.trim(),
+                title: document.getElementById('sTitle').value.trim(),
+                reason: document.getElementById('sReason').value.trim(),
+                img: document.getElementById('sImg').value.trim(),
+                emoji: document.getElementById('sEmoji').value.trim() || '⭐',
+                wins: parseInt(document.getElementById('sWins').value) || 0,
+                nominations: parseInt(document.getElementById('sNominations').value) || 0
+            };
+            if (!obj.name) return toast('Nome é obrigatório', 'error');
+            const stars = getStars();
+            if (!stars[month]) stars[month] = [];
+            if (idx >= 0) stars[month][idx] = obj; else stars[month].push(obj);
+            setData('stars', stars); closeModal('starModal'); renderStarsAdmin();
+            toast(idx >= 0 ? 'Estrela atualizada!' : 'Estrela adicionada!');
+        }
+
+        // ===== RANKFLOP =====
+        function renderRankflopAdmin() {
+            const rf = getRankflop();
+            const labels = ['🥇 1º Lugar', '🥈 2º Lugar', '🥉 3º Lugar'];
+            document.getElementById('rankflopCards').innerHTML = rf.map((r, i) => `
+        <div class="card">
+            <div class="card-title">${labels[i]} — ${r.name}</div>
+            <div class="member-cell" style="margin-bottom:1rem">
+                <img src="${r.img}" alt="${r.name}" loading="lazy" style="width:50px;height:50px;border-radius:50%;object-fit:cover;border:2px solid var(--border)">
+                <div><div style="font-weight:700">${r.name}</div><div style="font-size:0.75rem;color:var(--accent-light)">${r.vitorias} vitórias</div></div>
+            </div>
+            <div style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:1rem">
+                ${r.trophies.map(t => '<div style="padding:0.3rem 0">🏆 ' + t + '</div>').join('')}
+            </div>
+            <button class="btn btn-sm btn-secondary" onclick="editRankflop(${i})">✏️ Editar</button>
+        </div>
+    `).join('');
+        }
+        function editRankflop(i) {
+            const r = getRankflop()[i];
+            document.getElementById('editRankIdx').value = i;
+            document.getElementById('rName').value = r.name;
+            document.getElementById('rImg').value = r.img;
+            document.getElementById('rVitorias').value = r.vitorias;
+            document.getElementById('rTrophy1').value = r.trophies[0] || '';
+            document.getElementById('rTrophy2').value = r.trophies[1] || '';
+            document.getElementById('rTrophy3').value = r.trophies[2] || '';
+            document.getElementById('rankflopModal').classList.add('active');
+        }
+        function saveRankflop() {
+            const idx = parseInt(document.getElementById('editRankIdx').value);
+            const rf = getRankflop();
+            rf[idx] = {
+                name: document.getElementById('rName').value.trim(),
+                img: document.getElementById('rImg').value.trim(),
+                vitorias: parseInt(document.getElementById('rVitorias').value) || 0,
+                trophies: [
+                    document.getElementById('rTrophy1').value.trim(),
+                    document.getElementById('rTrophy2').value.trim(),
+                    document.getElementById('rTrophy3').value.trim()
+                ].filter(Boolean)
+            };
+            setData('rankflop', rf); closeModal('rankflopModal'); renderRankflopAdmin();
+            toast('RankFlop atualizado!');
+        }
+    </script>
+</body>
+
+</html>

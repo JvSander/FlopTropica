@@ -1,0 +1,1921 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FLOPTROPICA • Awards</title>
+    <meta name="description"
+        content="FlopTropica Awards – Celebrando os melhores membros, premiações e momentos da comunidade FlopTropica.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           VARIÁVEIS E CONFIGURAÇÕES GERAIS
+           ========================================================================== */
+        :root {
+            --gold: #a855f7;
+            --gold-light: #d8b4fe;
+            --gold-dark: #7c3aed;
+            --surface: #18181b;
+            --surface-light: #27272a;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold) transparent;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        .heading-font {
+            font-family: 'Playfair Display', Georgia, serif;
+        }
+
+        /* Custom selection */
+        ::selection {
+            background: rgba(168, 85, 247, 0.3);
+            color: #fff;
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero-bg {
+            background-image:
+                linear-gradient(135deg, rgba(20, 0, 40, 0.75) 0%, rgba(10, 0, 25, 0.55) 50%, rgba(0, 0, 0, 0.80) 100%),
+                url('Flop_Banner (1).png');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .countdown-number {
+            font-family: 'Playfair Display', serif;
+            text-shadow: 0 0 40px rgba(168, 85, 247, 0.7);
+        }
+
+        /* Glass effect */
+        .glass {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* ==========================================================================
+           MEMBER CAROUSEL CARD
+           ========================================================================== */
+        .member-card {
+            max-width: 820px;
+            aspect-ratio: 16 / 10;
+            perspective: 1200px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 24px;
+            box-shadow:
+                0 35px 70px -15px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(168, 85, 247, 0.15);
+            border: 2px solid transparent;
+            background:
+                linear-gradient(var(--surface), var(--surface)) padding-box,
+                conic-gradient(from 0deg, #c084fc, #a855f7, #7c3aed, #c084fc) border-box;
+            animation: borderRotate 8s linear infinite;
+            transition: box-shadow 0.5s ease;
+        }
+
+        @property --conic-angle {
+            syntax: '<angle>';
+            initial-value: 0deg;
+            inherits: false;
+        }
+
+        @keyframes borderRotate {
+            to {
+                --conic-angle: 360deg;
+            }
+        }
+
+        .member-card:hover {
+            box-shadow:
+                0 50px 100px -20px rgba(168, 85, 247, 0.4),
+                0 0 0 1px rgba(168, 85, 247, 0.3);
+        }
+
+        #innerContent {
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Light sweep on hover */
+        .light-sweep {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(105deg,
+                    transparent 40%,
+                    rgba(255, 255, 255, 0.12) 45%,
+                    rgba(255, 255, 255, 0.2) 50%,
+                    rgba(255, 255, 255, 0.12) 55%,
+                    transparent 60%);
+            transform: translateX(-120%) skewX(-25deg);
+            opacity: 0;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .member-card:hover .light-sweep {
+            opacity: 1;
+            animation: sweep 1.8s ease-in-out;
+        }
+
+        @keyframes sweep {
+            0% {
+                transform: translateX(-120%) skewX(-25deg);
+            }
+
+            100% {
+                transform: translateX(300%) skewX(-25deg);
+            }
+        }
+
+        /* Sparkle particles */
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #d8b4fe;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #c084fc;
+            animation: sparkleFloat linear infinite;
+            opacity: 0.7;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        @keyframes sparkleFloat {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateY(-380px) scale(0.4);
+                opacity: 0;
+            }
+        }
+
+        /* Name glow */
+        #memberName {
+            animation: holographicGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes holographicGlow {
+
+            0%,
+            100% {
+                text-shadow: 0 0 15px #d8b4fe, 0 0 30px #c084fc, 0 0 50px #a855f7;
+            }
+
+            50% {
+                text-shadow: 0 0 25px #d8b4fe, 0 0 50px #c084fc, 0 0 80px #a855f7;
+            }
+        }
+
+        /* Member transition */
+        .member-transition {
+            animation: memberFadeSlide 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        @keyframes memberFadeSlide {
+            0% {
+                opacity: 0;
+                transform: scale(0.95) translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        /* Heart float animation */
+        .heart-float {
+            position: absolute;
+            pointer-events: none;
+            z-index: 40;
+            animation: floatHeart 2.4s ease-out forwards;
+            font-size: 24px;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1) rotate(0deg);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: translateY(-120px) scale(1.2) rotate(15deg);
+            }
+
+            100% {
+                opacity: 0;
+                transform: translateY(-280px) scale(0.6) rotate(-10deg);
+            }
+        }
+
+        /* Side glow */
+        .side-glow-anim {
+            animation: sideGlowPulse 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes sideGlowPulse {
+            0% {
+                opacity: 0.3;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes sideShine {
+
+            0%,
+            100% {
+                opacity: 0.2;
+                transform: scaleY(0.8);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scaleY(1.1);
+            }
+        }
+
+        /* ==========================================================================
+           PREMIAÇÃO SECTION – INTERACTIVE CAROUSEL
+           ========================================================================== */
+        #fireworksCanvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .prem-carousel-wrapper {
+            position: relative;
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .prem-slide-track {
+            display: flex;
+            transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .prem-slide {
+            min-width: 100%;
+            padding: 0 4px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .prem-card {
+            width: 100%;
+            max-width: 700px;
+            min-height: 420px;
+            border-radius: 28px;
+            padding: 3rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            border: 2px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .prem-card:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .prem-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: inherit;
+            z-index: -1;
+            border-radius: inherit;
+        }
+
+        /* Shimmer overlay on card */
+        .prem-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg,
+                    transparent 0deg,
+                    rgba(255, 255, 255, 0.03) 60deg,
+                    transparent 120deg);
+            animation: shimmerRotate 8s linear infinite;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        @keyframes shimmerRotate {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .prem-card>* {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Arrow navigation */
+        .prem-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 10;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(168, 85, 247, 0.15);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            color: white;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .prem-arrow:hover {
+            background: rgba(168, 85, 247, 0.35);
+            border-color: rgba(168, 85, 247, 0.6);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.4);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .prem-arrow.left {
+            left: 12px;
+        }
+
+        .prem-arrow.right {
+            right: 12px;
+        }
+
+        /* Dots */
+        .prem-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .prem-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: all 0.4s ease;
+        }
+
+        .prem-dot.active {
+            width: 36px;
+            border-radius: 20px;
+            background: var(--dot-color, #a855f7);
+            box-shadow: 0 0 14px var(--dot-color, #a855f7);
+        }
+
+        /* Section entrance */
+        .prem-entrance {
+            opacity: 0;
+            transform: translateY(60px) scale(0.92);
+            transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .prem-entrance.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .prem-title-entrance {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .prem-title-entrance.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Year tags */
+        .year-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .year-tag:hover {
+            transform: scale(1.08);
+        }
+
+        /* Category list inside card */
+        .prem-category {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .prem-category:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(6px);
+        }
+
+        /* ==========================================================================
+           PÓDIO 3D – HALL DA FAMA
+           ========================================================================== */
+        .tilt-wrapper {
+            perspective: 1200px;
+            transform-style: preserve-3d;
+        }
+
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.4s ease;
+            will-change: transform;
+        }
+
+        .glare {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: 50;
+        }
+
+        .tilt-wrapper:hover .glare {
+            opacity: 1;
+        }
+
+        .glass-panel {
+            background: rgba(10, 10, 10, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Gold particles for 1st place */
+        .gold-particles::before,
+        .gold-particles::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 100%;
+            background-image:
+                radial-gradient(circle, #a855f7 2px, transparent 2.5px),
+                radial-gradient(circle, #d8b4fe 1px, transparent 1.5px);
+            background-size: 25px 25px, 40px 40px;
+            background-position: 0 0, 15px 15px;
+            background-repeat: repeat;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        .gold-particles::before {
+            animation: starExplosion 4s linear infinite;
+        }
+
+        .gold-particles::after {
+            background-size: 30px 30px, 50px 50px;
+            animation: starExplosion 5s linear infinite 2s;
+        }
+
+        @keyframes starExplosion {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8) rotate(0deg);
+                opacity: 0;
+            }
+
+            20% {
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        .shadow-silver {
+            box-shadow: 0 10px 30px -10px rgba(192, 192, 192, 0.5);
+        }
+
+        .shadow-bronze {
+            box-shadow: 0 10px 30px -10px rgba(205, 127, 50, 0.5);
+        }
+
+        .shadow-gold {
+            box-shadow: 0 15px 40px -5px rgba(168, 85, 247, 0.6);
+        }
+
+        /* ==========================================================================
+           LIKE BUTTON
+           ========================================================================== */
+        .like-btn {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: pointer;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 40px -8px rgba(244, 63, 94, 0.5);
+        }
+
+        .like-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Ripple on click */
+        .like-btn .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%) scale(0);
+            animation: rippleAnim 0.7s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes rippleAnim {
+            to {
+                transform: translate(-50%, -50%) scale(20);
+                opacity: 0;
+            }
+        }
+
+        /* ==========================================================================
+           NAVIGATION
+           ========================================================================== */
+        .nav-link {
+            position: relative;
+            padding-bottom: 2px;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #a855f7, #c084fc);
+            transition: width 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        /* ==========================================================================
+           SECTION DIVIDERS
+           ========================================================================== */
+        .section-divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #a855f7, transparent);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* ==========================================================================
+           MEMBER COUNTER BADGE
+           ========================================================================== */
+        .member-counter {
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        /* ==========================================================================
+           FOOTER STYLES
+           ========================================================================== */
+        .footer-gradient {
+            background: linear-gradient(180deg, #09090b 0%, #0a0a0a 100%);
+        }
+
+        /* ==========================================================================
+           SCROLL REVEAL ANIMATION
+           ========================================================================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ==========================================================================
+           ESTRELAS DA TEMPORADA
+           ========================================================================== */
+        .star-card {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            background: rgba(20, 20, 25, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
+            cursor: default;
+        }
+
+        .star-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow:
+                0 30px 60px -15px rgba(168, 85, 247, 0.35),
+                0 0 40px rgba(168, 85, 247, 0.15);
+        }
+
+        .star-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(168, 85, 247, 0.08) 100%);
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .star-card:hover::before {
+            opacity: 1;
+        }
+
+        .star-card-img {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1), filter 0.6s ease;
+        }
+
+        .star-card:hover .star-card-img {
+            transform: scale(1.08);
+            filter: brightness(1.1);
+        }
+
+        .star-card-content {
+            position: relative;
+            z-index: 2;
+            padding: 1.5rem;
+        }
+
+        .star-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+
+        .star-glow-ring {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.6), transparent 70%);
+            filter: blur(15px);
+            z-index: 3;
+            pointer-events: none;
+            animation: starPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes starPulse {
+
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.8;
+                transform: scale(1.3);
+            }
+        }
+
+        .star-icon-float {
+            animation: starIconBounce 3s ease-in-out infinite;
+        }
+
+        @keyframes starIconBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-6px) rotate(10deg);
+            }
+        }
+
+        .star-stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 12px;
+            background: rgba(168, 85, 247, 0.08);
+            border: 1px solid rgba(168, 85, 247, 0.12);
+            transition: all 0.3s ease;
+        }
+
+        .star-stat:hover {
+            background: rgba(168, 85, 247, 0.15);
+            border-color: rgba(168, 85, 247, 0.3);
+        }
+
+        .estrelas-bg-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            opacity: 0.15;
+        }
+
+        /* ==========================================================================
+           RESPONSIVE ADJUSTMENTS
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .member-card {
+                max-width: 100%;
+                border-radius: 16px;
+            }
+
+            .hero-bg {
+                background-attachment: scroll;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-zinc-950 text-zinc-100 overflow-x-hidden antialiased">
+
+    <!-- ══════════════════════════════════════════════════════════
+         NAVIGATION
+         ══════════════════════════════════════════════════════════ -->
+    <nav class="fixed top-0 left-0 right-0 z-50 border-b border-white/10 bg-zinc-950/80 backdrop-blur-xl">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <div
+                    class="w-9 h-9 rounded-full bg-gradient-to-br from-purple-400 to-violet-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-purple-400/20">
+                    FT</div>
+                <span
+                    class="heading-font text-2xl md:text-3xl tracking-tighter font-semibold text-purple-400">FlopTropica</span>
+            </div>
+            <div class="hidden md:flex items-center gap-x-10 text-sm font-medium">
+                <a href="#indicados" class="nav-link hover:text-purple-400 transition-colors">MEMBROS</a>
+                <a href="#premiacoes" class="nav-link hover:text-purple-400 transition-colors">PREMIAÇÕES</a>
+                <a href="#estrelas" class="nav-link hover:text-purple-400 transition-colors">ESTRELAS</a>
+                <a href="#estatisticas" class="nav-link hover:text-purple-400 transition-colors">RANKFLOP</a>
+            </div>
+            <a href="#indicados"
+                class="px-6 py-2.5 md:px-8 md:py-3 bg-gradient-to-r from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500 text-white font-semibold rounded-xl text-xs md:text-sm tracking-widest transition-all hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25">
+                EXPLORAR
+            </a>
+        </div>
+    </nav>
+
+    <!-- ══════════════════════════════════════════════════════════
+         HERO SECTION
+         ══════════════════════════════════════════════════════════ -->
+    <section id="hero" class="hero-bg min-h-screen flex items-center justify-center pt-20 relative">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-8 text-center w-full">
+            <div class="max-w-4xl mx-auto">
+                <div
+                    class="inline-flex items-center gap-x-2 bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 mb-8">
+                    <div class="w-2 h-2 bg-red-400 rounded-full animate-pulse"></div>
+                    <span class="text-xs uppercase tracking-[3px] font-medium">AGUARDE A PRÓXIMA PREMIAÇÃO</span>
+                </div>
+
+                <h1
+                    class="heading-font text-6xl sm:text-7xl md:text-8xl font-bold tracking-tighter leading-none mb-6 text-white">
+                    <br>
+                </h1>
+
+                <p class="text-2xl md:text-3xl font-light tracking-wide text-purple-300/90 mb-16">
+                    A Votação Terminou!
+                </p>
+
+                <div id="countdown" class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 max-w-2xl mx-auto mb-16">
+                </div>
+
+                <button onclick="document.getElementById('indicados').scrollIntoView({ behavior: 'smooth' })"
+                    class="group relative px-10 py-5 md:px-12 md:py-6 text-lg md:text-xl font-semibold tracking-widest bg-transparent border-2 border-purple-400/80 text-purple-400 hover:text-white transition-all duration-500 rounded-2xl overflow-hidden">
+                    <span class="relative z-10">EXPLORAR MEMBROS</span>
+                    <div
+                        class="absolute inset-0 bg-gradient-to-r from-purple-500 to-violet-600 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                    </div>
+                </button>
+            </div>
+        </div>
+
+        <div
+            class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-y-2 text-xs tracking-widest text-white/50">
+            <div class="w-px h-12 bg-gradient-to-b from-transparent via-white/30 to-transparent"></div>
+            ROLE PARA BAIXO
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         MEMBROS CAROUSEL
+         ══════════════════════════════════════════════════════════ -->
+    <section id="indicados" class="py-24 md:py-28 bg-zinc-950 relative">
+        <div class="w-full max-w-4xl mx-auto text-center px-4">
+            <div class="mb-12 reveal">
+                <span class="text-purple-400 text-xs tracking-[4px] font-medium uppercase">FlopTropica Apresenta</span>
+                <h2 class="heading-font text-5xl md:text-6xl font-bold text-white tracking-tight mt-2">MEMBROS</h2>
+                <div class="section-divider mt-4"></div>
+            </div>
+
+            <!-- Member Counter -->
+            <div class="member-counter inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8">
+                <span id="memberIndex" class="text-purple-400 font-bold text-sm">1</span>
+                <span class="text-zinc-500 text-sm">/</span>
+                <span id="memberTotal" class="text-zinc-400 text-sm">20</span>
+            </div>
+
+            <div id="card" class="member-card mx-auto bg-black relative">
+                <!-- Light Sweep -->
+                <div class="light-sweep"></div>
+
+                <!-- Sparkles -->
+                <div class="sparkle" style="left:15%; bottom:20%; animation-duration: 3.2s; animation-delay: 0s;"></div>
+                <div class="sparkle" style="left:28%; bottom:35%; animation-duration: 4.1s; animation-delay: 0.6s;">
+                </div>
+                <div class="sparkle" style="left:45%; bottom:15%; animation-duration: 2.8s; animation-delay: 1.2s;">
+                </div>
+                <div class="sparkle" style="left:62%; bottom:40%; animation-duration: 3.7s; animation-delay: 0.3s;">
+                </div>
+                <div class="sparkle" style="left:78%; bottom:25%; animation-duration: 4.5s; animation-delay: 1.8s;">
+                </div>
+                <div class="sparkle" style="left:88%; bottom:32%; animation-duration: 3.4s; animation-delay: 2.1s;">
+                </div>
+
+                <!-- Side glow -->
+                <div class="absolute top-[-50%] left-[-110px] w-[260px] h-[200%] rounded-full opacity-30 pointer-events-none side-glow-anim"
+                    style="background: radial-gradient(circle, rgba(168,85,247,0.5) 0%, rgba(200,180,254,0.3) 40%, transparent 70%); filter: blur(45px);">
+                </div>
+                <div class="absolute top-[-50%] right-[-110px] w-[260px] h-[200%] rounded-full opacity-30 pointer-events-none side-glow-anim"
+                    style="background: radial-gradient(circle, rgba(168,85,247,0.5) 0%, rgba(200,180,254,0.3) 40%, transparent 70%); filter: blur(45px); animation-delay: 1.3s;">
+                </div>
+
+                <!-- Navigation Arrows -->
+                <button onclick="prevMember()" aria-label="Membro anterior"
+                    class="absolute left-4 md:left-6 top-1/2 -translate-y-1/2 z-30 bg-black/60 hover:bg-black/80 text-white w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center transition-all hover:scale-110 text-lg">
+                    ←
+                </button>
+                <button onclick="nextMember()" aria-label="Próximo membro"
+                    class="absolute right-4 md:right-6 top-1/2 -translate-y-1/2 z-30 bg-black/60 hover:bg-black/80 text-white w-12 h-12 md:w-14 md:h-14 rounded-xl flex items-center justify-center transition-all hover:scale-110 text-lg">
+                    →
+                </button>
+
+                <!-- Inner Content -->
+                <div id="innerContent" class="relative h-full w-full">
+                    <img id="memberImg" src="" alt="Foto do Membro" class="w-full h-full object-cover" loading="lazy">
+
+                    <!-- Bottom gradient overlay -->
+                    <div
+                        class="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none">
+                    </div>
+
+                    <div
+                        class="absolute bottom-6 md:bottom-8 left-6 md:left-8 right-6 md:right-8 flex items-end justify-between z-10">
+                        <div>
+                            <h2 id="memberName"
+                                class="text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tighter">GABS
+                            </h2>
+                            <p id="memberSubtitle" class="text-purple-300/80 text-sm md:text-base tracking-widest mt-1">
+                                FLOPTROPICA PREMIERE</p>
+                        </div>
+
+                        <div class="flex gap-8 md:gap-12 text-white">
+                            <div class="text-right">
+                                <span
+                                    class="block text-[10px] md:text-xs text-purple-400/80 tracking-widest font-medium">INDICAÇÕES</span>
+                                <span id="indicacoes"
+                                    class="text-3xl md:text-4xl lg:text-5xl font-bold tabular-nums">53</span>
+                            </div>
+                            <div class="text-right">
+                                <span
+                                    class="block text-[10px] md:text-xs text-purple-400/80 tracking-widest font-medium">VITÓRIAS</span>
+                                <span id="vitorias"
+                                    class="text-3xl md:text-4xl lg:text-5xl font-bold text-purple-400 tabular-nums">7</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Like Button -->
+            <div class="mt-10 flex justify-center relative">
+                <button id="likeBtn" onclick="likeCurrentMember()"
+                    class="like-btn flex items-center gap-4 bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 px-10 py-4 md:px-12 md:py-5 rounded-2xl text-white text-lg md:text-xl font-semibold shadow-lg shadow-rose-500/20">
+                    <span class="text-2xl">❤️</span>
+                    <span>CURTIR</span>
+                    <span id="likeCount" class="font-bold text-2xl ml-1 tabular-nums">0</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         PREMIAÇÕES – INTERACTIVE CAROUSEL
+         ══════════════════════════════════════════════════════════ -->
+    <section id="premiacoes" class="py-24 md:py-32 bg-zinc-950 relative overflow-hidden">
+        <!-- Fireworks Canvas -->
+        <canvas id="fireworksCanvas"></canvas>
+
+        <!-- Ambient glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none"
+            style="background: radial-gradient(circle, rgba(168,85,247,0.4) 0%, transparent 70%); filter: blur(80px);">
+        </div>
+
+        <div class="max-w-screen-xl mx-auto px-6 md:px-8 relative z-5">
+            <!-- Section Header -->
+            <div class="text-center mb-16 md:mb-20 prem-title-entrance">
+                <span
+                    class="inline-flex items-center gap-2 px-6 py-2.5 bg-purple-500/10 backdrop-blur-md border border-purple-500/20 rounded-full text-purple-400 text-xs tracking-[3px] font-bold mb-6">
+                    <span class="w-2 h-2 bg-purple-400 rounded-full animate-pulse"></span>
+                    GLOBAL ENTERTAINMENT UNIVERSE
+                </span>
+                <h2 class="heading-font text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white">
+                    Premiações que<br>Movem o Mundo
+                </h2>
+                <p class="mt-4 text-zinc-500 max-w-lg mx-auto text-sm">Use as setas para navegar entre as premiações e
+                    descubra os anos e categorias de cada uma.</p>
+                <div class="section-divider mt-6"></div>
+            </div>
+
+            <!-- Carousel -->
+            <div class="prem-carousel-wrapper prem-entrance relative max-w-4xl mx-auto">
+                <!-- Arrows -->
+                <button onclick="premPrev()" class="prem-arrow left" aria-label="Anterior">←</button>
+                <button onclick="premNext()" class="prem-arrow right" aria-label="Próxima">→</button>
+
+                <!-- Slides -->
+                <div class="prem-slide-track" id="premTrack">
+
+                    <!-- SLIDE 1 – TBOTY -->
+                    <div class="prem-slide">
+                        <div class="prem-card"
+                            style="background: linear-gradient(135deg, rgba(147,51,234,0.25) 0%, rgba(88,28,135,0.4) 50%, rgba(30,10,60,0.6) 100%); box-shadow: 0 30px 80px -20px rgba(147,51,234,0.4), inset 0 1px 0 rgba(255,255,255,0.08); border-color: rgba(147,51,234,0.25);">
+                            <div class="text-6xl mb-4 animate-bounce" style="animation-duration: 3s;">🌟</div>
+                            <h3 class="heading-font text-3xl md:text-4xl font-black text-white tracking-tight mb-2">The
+                                Best Of The Year</h3>
+                            <p class="text-purple-300/70 text-sm tracking-widest font-medium mb-6">TBOTY</p>
+
+                            <!-- Year tags -->
+                            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                                <span class="year-tag bg-purple-500/15 text-purple-300 border border-purple-500/25">✨
+                                    2024</span>
+                                <span class="year-tag bg-purple-500/15 text-purple-300 border border-purple-500/25">✨
+                                    2025</span>
+                                <span class="year-tag bg-purple-500/15 text-purple-300 border border-purple-500/25">✨
+                                    2026</span>
+                            </div>
+
+                            <!-- Categories -->
+                            <div class="w-full max-w-sm space-y-3">
+                                <div class="prem-category">
+                                    <span class="text-purple-400 text-lg">🎬</span>
+                                    <span class="text-white/90 text-sm font-medium">Filme do Ano</span>
+                                </div>
+                                <div class="prem-category">
+                                    <span class="text-purple-400 text-lg">⭐</span>
+                                    <span class="text-white/90 text-sm font-medium">Ator Revelação</span>
+                                </div>
+                                <div class="prem-category">
+                                    <span class="text-purple-400 text-lg">🏆</span>
+                                    <span class="text-white/90 text-sm font-medium">Member Of The Year</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 2 – GRAMMY NEWM -->
+                    <div class="prem-slide">
+                        <div class="prem-card"
+                            style="background: linear-gradient(135deg, rgba(6,182,212,0.2) 0%, rgba(14,116,144,0.4) 50%, rgba(10,30,50,0.6) 100%); box-shadow: 0 30px 80px -20px rgba(6,182,212,0.35), inset 0 1px 0 rgba(255,255,255,0.08); border-color: rgba(6,182,212,0.2);">
+                            <div class="text-6xl mb-4 animate-bounce"
+                                style="animation-duration: 3s; animation-delay: 0.5s;">🎤</div>
+                            <h3 class="heading-font text-3xl md:text-4xl font-black text-white tracking-tight mb-2">
+                                GRAMMY NEWM</h3>
+                            <p class="text-cyan-300/70 text-sm tracking-widest font-medium mb-6">GOLDEN MUSIC AWARDS</p>
+
+                            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                                <span class="year-tag bg-cyan-500/15 text-cyan-300 border border-cyan-500/25">🎵
+                                    2024</span>
+                                <span class="year-tag bg-cyan-500/15 text-cyan-300 border border-cyan-500/25">🎵
+                                    2025</span>
+                                <span class="year-tag bg-cyan-500/15 text-cyan-300 border border-cyan-500/25">🎵
+                                    2026</span>
+                            </div>
+
+                            <div class="w-full max-w-sm space-y-3">
+                                <div class="prem-category">
+                                    <span class="text-cyan-400 text-lg">💿</span>
+                                    <span class="text-white/90 text-sm font-medium">Álbum do Ano</span>
+                                </div>
+                                <div class="prem-category">
+                                    <span class="text-cyan-400 text-lg">🎙️</span>
+                                    <span class="text-white/90 text-sm font-medium">Artista Revelação</span>
+                                </div>
+                                <div class="prem-category">
+                                    <span class="text-cyan-400 text-lg">🎶</span>
+                                    <span class="text-white/90 text-sm font-medium">Song Of The Year</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- SLIDE 3 – EMMY -->
+                    <div class="prem-slide">
+                        <div class="prem-card"
+                            style="background: linear-gradient(135deg, rgba(236,72,153,0.2) 0%, rgba(157,23,77,0.4) 50%, rgba(50,10,30,0.6) 100%); box-shadow: 0 30px 80px -20px rgba(236,72,153,0.35), inset 0 1px 0 rgba(255,255,255,0.08); border-color: rgba(236,72,153,0.2);">
+                            <div class="text-6xl mb-4 animate-bounce"
+                                style="animation-duration: 3s; animation-delay: 1s;">📺</div>
+                            <h3 class="heading-font text-3xl md:text-4xl font-black text-white tracking-tight mb-2">EMMY
+                            </h3>
+                            <p class="text-pink-300/70 text-sm tracking-widest font-medium mb-6">TELEVISION EXCELLENCE
+                            </p>
+
+                            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                                <span class="year-tag bg-pink-500/15 text-pink-300 border border-pink-500/25">📺
+                                    2024</span>
+                                <span class="year-tag bg-pink-500/15 text-pink-300 border border-pink-500/25">📺
+                                    2025</span>
+                                <span class="year-tag bg-pink-500/15 text-pink-300 border border-pink-500/25">📺
+                                    2026</span>
+                            </div>
+
+                            <div class="w-full max-w-sm space-y-3">
+                                <div class="prem-category">
+                                    <span class="text-pink-400 text-lg">🎭</span>
+                                    <span class="text-white/90 text-sm font-medium">Melhor Série Dramática</span>
+                                </div>
+                                <div class="prem-category">
+                                    <span class="text-pink-400 text-lg">😂</span>
+                                    <span class="text-white/90 text-sm font-medium">Melhor Série de Comédia</span>
+                                </div>
+                                <div class="prem-category">
+                                    <span class="text-pink-400 text-lg">🌟</span>
+                                    <span class="text-white/90 text-sm font-medium">Best Actress / Actor</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dots -->
+                <div class="prem-dots" id="premDots">
+                    <div class="prem-dot active" style="--dot-color: #9333ea;" onclick="goToPremSlide(0)"></div>
+                    <div class="prem-dot" style="--dot-color: #06b6d4;" onclick="goToPremSlide(1)"></div>
+                    <div class="prem-dot" style="--dot-color: #ec4899;" onclick="goToPremSlide(2)"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         ESTRELAS DA TEMPORADA
+         ══════════════════════════════════════════════════════════ -->
+    <section id="estrelas" class="py-24 md:py-32 bg-zinc-950 relative overflow-hidden">
+        <!-- Ambient glows -->
+        <div class="estrelas-bg-glow"
+            style="top: 10%; left: -5%; background: radial-gradient(circle, #a855f7, transparent);"></div>
+        <div class="estrelas-bg-glow"
+            style="bottom: 10%; right: -5%; background: radial-gradient(circle, #7c3aed, transparent);"></div>
+
+        <div class="max-w-screen-xl mx-auto px-6 md:px-8 relative z-10">
+            <!-- Section Header -->
+            <div class="text-center mb-16 md:mb-20 reveal">
+                <span
+                    class="inline-flex items-center gap-2 px-6 py-2.5 bg-purple-500/10 backdrop-blur-md border border-purple-500/20 rounded-full text-purple-400 text-xs tracking-[3px] font-bold mb-6">
+                    <span class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+                    DESTAQUES MENSAIS
+                </span>
+                <h2 class="heading-font text-5xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-white">
+                    Estrelas da<br>Temporada
+                </h2>
+                <p class="mt-4 text-zinc-500 max-w-lg mx-auto text-sm">Os membros que mais brilharam neste mês.
+                    Reconhecimento especial para quem fez a diferença na comunidade.</p>
+                <div class="section-divider mt-6"></div>
+            </div>
+
+            <!-- Month Selector -->
+            <div class="flex justify-center mb-12 reveal">
+                <div
+                    class="inline-flex items-center gap-2 bg-zinc-900/80 backdrop-blur-md border border-zinc-800 rounded-2xl p-1.5">
+                    <button onclick="selectMonth(0)"
+                        class="month-btn active px-5 py-2.5 rounded-xl text-xs font-bold tracking-widest transition-all"
+                        data-month="0">MAR 2026</button>
+                    <button onclick="selectMonth(1)"
+                        class="month-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-widest transition-all text-zinc-500 hover:text-white"
+                        data-month="1">FEV 2026</button>
+                    <button onclick="selectMonth(2)"
+                        class="month-btn px-5 py-2.5 rounded-xl text-xs font-bold tracking-widest transition-all text-zinc-500 hover:text-white"
+                        data-month="2">JAN 2026</button>
+                </div>
+            </div>
+
+            <!-- Stars Grid -->
+            <div id="starsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto reveal">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         RANKFLOP – RANKING COMPLETO
+         ══════════════════════════════════════════════════════════ -->
+    <section id="estatisticas" class="py-24 md:py-28 bg-black relative">
+        <div class="max-w-screen-2xl mx-auto px-6 md:px-8">
+
+            <div class="text-center mb-20 md:mb-24 relative z-10 reveal">
+                <span class="text-purple-400 tracking-[4px] text-xs font-bold uppercase">Hall da Fama</span>
+                <h2 class="heading-font text-5xl md:text-6xl font-bold tracking-tighter text-white mt-2">RankFlop</h2>
+                <p class="text-zinc-500 mt-4 max-w-md mx-auto text-sm">Interaja com os cards para revelar os troféus.
+                </p>
+                <div class="section-divider mt-6"></div>
+            </div>
+
+            <div
+                class="flex flex-col md:flex-row justify-center items-end gap-8 max-w-5xl mx-auto min-h-[500px] md:min-h-[600px]">
+
+                <!-- 2nd Place - Juno -->
+                <div class="w-full md:w-1/3 flex flex-col items-center">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-gray-300 to-gray-500 rounded-full flex items-center justify-center text-black font-black text-lg mb-[-24px] z-20 shadow-[0_0_15px_rgba(192,192,192,0.6)] border-2 border-black">
+                        2º</div>
+
+                    <div class="tilt-wrapper w-full h-[380px] md:h-[400px] group" onmousemove="handleTilt(event, this)"
+                        onmouseleave="resetTilt(this)">
+                        <div
+                            class="tilt-card relative w-full h-full rounded-2xl overflow-hidden border border-gray-400/30 bg-zinc-900 shadow-silver">
+                            <img src="https://i.pinimg.com/736x/90/8c/11/908c1191ad490bd4ec564e92a61aaf9b.jpg"
+                                alt="Juno"
+                                class="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:object-top"
+                                loading="lazy">
+                            <div class="glare"></div>
+                            <div
+                                class="absolute bottom-0 left-0 w-full p-6 transition-all duration-500 group-hover:bottom-[50%] z-20 bg-gradient-to-t from-black via-black/80 to-transparent group-hover:bg-transparent">
+                                <h3 class="heading-font text-3xl font-bold text-white drop-shadow-lg">Juno</h3>
+                                <span class="text-gray-300 font-bold tracking-widest text-sm drop-shadow-md">14
+                                    VITÓRIAS</span>
+                            </div>
+                            <div
+                                class="glass-panel absolute bottom-0 left-0 w-full h-[50%] p-6 translate-y-[100%] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-10 border-t border-gray-400/30 flex flex-col justify-center">
+                                <ul class="text-xs text-white/90 space-y-3">
+                                    <li class="flex items-center gap-2"><span class="text-gray-300 text-lg"></span>
+                                        Member Of The Year (TBOTY)</li>
+                                    <li class="flex items-center gap-2"><span class="text-gray-300 text-lg"></span>
+                                        Album Of The Year (GRAMMY)</li>
+                                    <li class="flex items-center gap-2"><span class="text-gray-300 text-lg"></span>
+                                        Best Series (EMMY)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 1st Place - Gabs -->
+                <div
+                    class="w-full md:w-1/3 flex flex-col items-center md:mb-8 gold-particles relative order-first md:order-none">
+                    <div
+                        class="w-16 h-16 bg-gradient-to-br from-purple-300 to-violet-600 rounded-full flex items-center justify-center text-white font-black text-3xl mb-[-32px] z-20 shadow-[0_0_25px_rgba(168,85,247,1)] border-4 border-black">
+                        1º</div>
+
+                    <div class="tilt-wrapper w-full h-[440px] md:h-[480px] group" onmousemove="handleTilt(event, this)"
+                        onmouseleave="resetTilt(this)">
+                        <div
+                            class="tilt-card relative w-full h-full rounded-2xl overflow-hidden border-2 border-purple-500/50 bg-zinc-900 shadow-gold">
+                            <img src="https://i.pinimg.com/736x/f3/66/37/f366371618753e91d644ff41db4080e9.jpg"
+                                alt="Gabs"
+                                class="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:object-top"
+                                loading="lazy">
+                            <div class="glare"></div>
+                            <div
+                                class="absolute bottom-0 left-0 w-full p-8 transition-all duration-500 group-hover:bottom-[55%] z-20 bg-gradient-to-t from-black via-black/90 to-transparent group-hover:bg-transparent">
+                                <h3
+                                    class="heading-font text-4xl md:text-5xl font-black text-purple-400 drop-shadow-[0_4px_10px_rgba(0,0,0,0.8)]">
+                                    Gabs</h3>
+                                <span
+                                    class="text-purple-400/90 font-black tracking-widest text-base md:text-lg drop-shadow-md">18
+                                    VITÓRIAS</span>
+                            </div>
+                            <div
+                                class="glass-panel absolute bottom-0 left-0 w-full h-[55%] p-8 translate-y-[100%] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-10 border-t-2 border-purple-500/40 flex flex-col justify-center">
+                                <ul class="text-sm text-white space-y-4 font-medium">
+                                    <li class="flex items-center gap-3"><span class="text-purple-400 text-xl"></span>
+                                        Song Of The Year (GRAMMY)</li>
+                                    <li class="flex items-center gap-3"><span class="text-purple-400 text-xl"></span>
+                                        Best New Member (OSCAT)</li>
+                                    <li class="flex items-center gap-3"><span class="text-purple-400 text-xl"></span>
+                                        Moment Of The Year (TBOTY)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3rd Place - Maxs -->
+                <div class="w-full md:w-1/3 flex flex-col items-center">
+                    <div
+                        class="w-12 h-12 bg-gradient-to-br from-amber-600 to-orange-900 rounded-full flex items-center justify-center text-white font-black text-lg mb-[-24px] z-20 shadow-[0_0_15px_rgba(205,127,50,0.6)] border-2 border-black">
+                        3º</div>
+
+                    <div class="tilt-wrapper w-full h-[350px] md:h-[370px] group" onmousemove="handleTilt(event, this)"
+                        onmouseleave="resetTilt(this)">
+                        <div
+                            class="tilt-card relative w-full h-full rounded-2xl overflow-hidden border border-[#cd7f32]/40 bg-zinc-900 shadow-bronze">
+                            <img src="https://i.pinimg.com/736x/07/ec/15/07ec156db667ad32c0608020306a511f.jpg"
+                                alt="Maxs"
+                                class="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105 group-hover:object-top"
+                                loading="lazy">
+                            <div class="glare"></div>
+                            <div
+                                class="absolute bottom-0 left-0 w-full p-6 transition-all duration-500 group-hover:bottom-[50%] z-20 bg-gradient-to-t from-black via-black/80 to-transparent group-hover:bg-transparent">
+                                <h3 class="heading-font text-3xl font-bold text-white drop-shadow-lg">Maxs</h3>
+                                <span class="text-[#cd7f32] font-bold tracking-widest text-sm drop-shadow-md">13
+                                    VITÓRIAS</span>
+                            </div>
+                            <div
+                                class="glass-panel absolute bottom-0 left-0 w-full h-[50%] p-6 translate-y-[100%] opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 z-10 border-t border-[#cd7f32]/30 flex flex-col justify-center">
+                                <ul class="text-xs text-white/90 space-y-3">
+                                    <li class="flex items-center gap-2"><span class="text-[#cd7f32] text-lg"></span>
+                                        Best Pop Artist (GRAMMY)</li>
+                                    <li class="flex items-center gap-2"><span class="text-[#cd7f32] text-lg"></span>
+                                        Melhor Atriz do Ano (GOLDEN GLOBE)</li>
+                                    <li class="flex items-center gap-2"><span class="text-[#cd7f32] text-lg"></span>
+                                        Best Villain (EMMY)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Ranking Completo dos Demais Membros -->
+            <div class="mt-20 max-w-3xl mx-auto reveal">
+                <h3 class="heading-font text-3xl font-bold text-white text-center mb-2">Ranking Completo</h3>
+                <p class="text-zinc-500 text-sm text-center mb-10">Todos os membros e suas premiações</p>
+                <div class="space-y-3" id="fullRanking"></div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════
+         FOOTER
+         ══════════════════════════════════════════════════════════ -->
+    <footer class="footer-gradient border-t border-white/5 pt-16 pb-10">
+        <div class="max-w-screen-xl mx-auto px-6 md:px-8">
+            <div class="flex flex-col items-center text-center">
+                <!-- Logo -->
+                <div class="flex items-center gap-x-3 mb-6">
+                    <div
+                        class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-violet-600 flex items-center justify-center text-white font-bold text-sm">
+                        FT</div>
+                    <span class="heading-font text-3xl tracking-tighter text-purple-400">FLOPTROPICA</span>
+                </div>
+
+                <p class="text-white/30 text-sm max-w-md mx-auto leading-relaxed">
+                    Uma celebração global ao cinema. Produzido com paixão para os amantes da sétima arte.
+                </p>
+
+                <div class="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-10"></div>
+
+                <!-- Legal -->
+                <div class="max-w-2xl mx-auto space-y-4">
+                    <p class="text-xs text-white/20 font-medium uppercase tracking-widest">Aviso Legal</p>
+                    <p class="text-[11px] text-white/15 leading-relaxed">
+                        Este site é um projeto fictício e sem fins lucrativos criado exclusivamente para entretenimento
+                        entre membros de um servidor. Todas as imagens utilizadas pertencem aos seus respectivos
+                        proprietários e detentores de direitos autorais.
+                    </p>
+                    <p class="text-[11px] text-white/15 leading-relaxed">
+                        Os nomes de premiações reais como GRAMMY, EMMY, TONY, VMA e outras são marcas registradas de
+                        seus respectivos proprietários e são utilizados apenas como referência cultural, paródia e uso
+                        ilustrativo. Este site não possui qualquer afiliação oficial com essas organizações. Caso algum
+                        detentor de direitos autorais solicite a remoção de qualquer conteúdo, o material será removido
+                        prontamente.
+                    </p>
+                </div>
+
+                <p class="mt-10 text-[11px] text-white/15">© 2026 FlopTropica Entertainment</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ══════════════════════════════════════════════════════════
+         SCRIPTS
+         ══════════════════════════════════════════════════════════ -->
+    <script>
+        // ==========================================================================
+        // COUNTDOWN
+        // ==========================================================================
+        function startCountdown() {
+            const savedDate = localStorage.getItem('ft_admin_countdown');
+            const targetDate = new Date(savedDate || "2026-02-01T20:00:00").getTime();
+            const container = document.getElementById("countdown");
+
+            container.innerHTML = `
+                <div class="glass border border-purple-400/20 rounded-2xl p-4 md:p-6 text-center">
+                    <div id="days" class="countdown-number text-5xl md:text-7xl font-bold text-purple-400 tabular-nums">00</div>
+                    <div class="text-[10px] md:text-xs tracking-widest mt-2 text-white/40 font-medium">DIAS</div>
+                </div>
+                <div class="glass border border-purple-400/20 rounded-2xl p-4 md:p-6 text-center">
+                    <div id="hours" class="countdown-number text-5xl md:text-7xl font-bold text-purple-400 tabular-nums">00</div>
+                    <div class="text-[10px] md:text-xs tracking-widest mt-2 text-white/40 font-medium">HORAS</div>
+                </div>
+                <div class="glass border border-purple-400/20 rounded-2xl p-4 md:p-6 text-center">
+                    <div id="minutes" class="countdown-number text-5xl md:text-7xl font-bold text-purple-400 tabular-nums">00</div>
+                    <div class="text-[10px] md:text-xs tracking-widest mt-2 text-white/40 font-medium">MINUTOS</div>
+                </div>
+                <div class="glass border border-purple-400/20 rounded-2xl p-4 md:p-6 text-center">
+                    <div id="seconds" class="countdown-number text-5xl md:text-7xl font-bold text-purple-400 tabular-nums">00</div>
+                    <div class="text-[10px] md:text-xs tracking-widest mt-2 text-white/40 font-medium">SEGUNDOS</div>
+                </div>
+            `;
+
+            const daysEl = document.getElementById("days");
+            const hoursEl = document.getElementById("hours");
+            const minutesEl = document.getElementById("minutes");
+            const secondsEl = document.getElementById("seconds");
+
+            function update() {
+                const now = Date.now();
+                let distance = Math.max(0, targetDate - now);
+
+                daysEl.textContent = String(Math.floor(distance / 86400000)).padStart(2, '0');
+                hoursEl.textContent = String(Math.floor((distance % 86400000) / 3600000)).padStart(2, '0');
+                minutesEl.textContent = String(Math.floor((distance % 3600000) / 60000)).padStart(2, '0');
+                secondsEl.textContent = String(Math.floor((distance % 60000) / 1000)).padStart(2, '0');
+            }
+
+            update();
+            setInterval(update, 1000);
+        }
+
+        // ==========================================================================
+        // MEMBERS DATA
+        // ==========================================================================
+        const defaultMembers = [
+            { name: "GABS", subtitle: "Song Of The Year (GRAMMY)", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", indicacoes: 53, vitorias: 18 },
+            { name: "JUNO", subtitle: "FLOPTROPICA ICON", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", indicacoes: 39, vitorias: 14 },
+            { name: "MAXS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", indicacoes: 59, vitorias: 13 },
+            { name: "JANE BABADO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", indicacoes: 52, vitorias: 7 },
+            { name: "TEMERYS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", indicacoes: 52, vitorias: 10 },
+            { name: "PEAGA", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/a1/b1/bc/a1b1bcacccbf5763b963bea07884914d.gif", indicacoes: 22, vitorias: 3 },
+            { name: "ASTRO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", indicacoes: 43, vitorias: 10 },
+            { name: "KADU", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", indicacoes: 57, vitorias: 9 },
+            { name: "TWIGS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", indicacoes: 34, vitorias: 8 },
+            { name: "OLÁ GOSTARIA", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", indicacoes: 28, vitorias: 6 },
+            { name: "JV_SANDER", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/0c/77/b1/0c77b17836644990398a2066dae7ace9.gif", indicacoes: 19, vitorias: 4 },
+            { name: "VIRTUAL ANGEL", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/16/6d/ae/166dae7a017cdde26b6c4a163a833019.gif", indicacoes: 32, vitorias: 2 },
+            { name: "PIPO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/14/7a/2b/147a2b86f55c9d61a8c3868193366363.gif", indicacoes: 20, vitorias: 2 },
+            { name: "FLYER", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/79/0b/39/790b39d8d2786b3bc8bd3b5251a2f14b.gif", indicacoes: 15, vitorias: 2 },
+            { name: "JEFF", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/16/1b/e2/161be28fb727ad7f796f2c8bac86b6fd.gif", indicacoes: 19, vitorias: 0 },
+            { name: "FEBRE", subtitle: "FLOPTROPICA LEGEND", img: "https://i.scdn.co/image/ab676161000051740e53ff44ce2d3c035aa18d3c", indicacoes: 14, vitorias: 3 },
+            { name: "GABE", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/7e/ea/40/7eea40d4d4d4dbbed4949b63d321fef4.gif", indicacoes: 10, vitorias: 1 },
+            { name: "FERNANDES", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/65/f2/62/65f262f39fb5f947794940ef7e09f1e8.gif", indicacoes: 8, vitorias: 1 },
+            { name: "DANDELION", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/736x/a3/25/2b/a3252b02df64bb3374185426144939c1.jpg", indicacoes: 9, vitorias: 1 },
+            { name: "MENINO PERDIDO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/ad/a6/ae/ada6aec3892091d47b4482c724e3521d.gif", indicacoes: 7, vitorias: 0 },
+        ];
+        const members = JSON.parse(localStorage.getItem('ft_admin_members') || 'null') || defaultMembers;
+
+        let currentIndex = 0;
+        const likes = new Array(members.length).fill(0);
+
+        // ==========================================================================
+        // MEMBER CAROUSEL
+        // ==========================================================================
+        function renderMember(animate = false) {
+            const m = members[currentIndex];
+            const inner = document.getElementById('innerContent');
+
+            if (animate) {
+                inner.classList.remove('member-transition');
+                void inner.offsetWidth; // force reflow
+                inner.classList.add('member-transition');
+            }
+
+            document.getElementById('memberImg').src = m.img;
+            document.getElementById('memberName').textContent = m.name;
+            document.getElementById('memberSubtitle').textContent = m.subtitle;
+            document.getElementById('indicacoes').textContent = m.indicacoes;
+            document.getElementById('vitorias').textContent = m.vitorias;
+            document.getElementById('likeCount').textContent = likes[currentIndex];
+            document.getElementById('memberIndex').textContent = currentIndex + 1;
+            document.getElementById('memberTotal').textContent = members.length;
+            updateLikeButton();
+        }
+
+        function prevMember() {
+            currentIndex = (currentIndex - 1 + members.length) % members.length;
+            renderMember(true);
+        }
+
+        function nextMember() {
+            currentIndex = (currentIndex + 1) % members.length;
+            renderMember(true);
+        }
+
+        // ==========================================================================
+        // LIKE SYSTEM (1 click per person per member)
+        // ==========================================================================
+        function hasLiked(memberIndex) {
+            const liked = JSON.parse(localStorage.getItem('floptropica_likes') || '[]');
+            return liked.includes(memberIndex);
+        }
+
+        function markLiked(memberIndex) {
+            const liked = JSON.parse(localStorage.getItem('floptropica_likes') || '[]');
+            if (!liked.includes(memberIndex)) {
+                liked.push(memberIndex);
+                localStorage.setItem('floptropica_likes', JSON.stringify(liked));
+            }
+        }
+
+        function updateLikeButton() {
+            const btn = document.getElementById('likeBtn');
+            if (hasLiked(currentIndex)) {
+                btn.classList.remove('from-rose-500', 'to-pink-500', 'hover:from-rose-600', 'hover:to-pink-600');
+                btn.classList.add('from-zinc-600', 'to-zinc-700', 'cursor-not-allowed', 'opacity-60');
+                btn.querySelector('span:nth-child(2)').textContent = 'JÁ CURTIU ✓';
+            } else {
+                btn.classList.remove('from-zinc-600', 'to-zinc-700', 'cursor-not-allowed', 'opacity-60');
+                btn.classList.add('from-rose-500', 'to-pink-500', 'hover:from-rose-600', 'hover:to-pink-600');
+                btn.querySelector('span:nth-child(2)').textContent = 'CURTIR';
+            }
+        }
+
+        function likeCurrentMember() {
+            if (hasLiked(currentIndex)) return;
+
+            likes[currentIndex]++;
+            markLiked(currentIndex);
+            document.getElementById('likeCount').textContent = likes[currentIndex];
+            updateLikeButton();
+
+            const card = document.getElementById('card');
+            const emojis = ['❤️', '💖', '💗', '💘', '💝'];
+
+            for (let i = 0; i < 14; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    heart.className = 'heart-float';
+                    heart.style.left = (Math.random() * 70 + 15) + '%';
+                    heart.style.bottom = '80px';
+                    heart.style.animationDuration = (1.8 + Math.random() * 1) + 's';
+                    card.appendChild(heart);
+                    setTimeout(() => heart.remove(), 3000);
+                }, i * 40);
+            }
+
+            // Ripple on button
+            const btn = document.getElementById('likeBtn');
+            const ripple = document.createElement('span');
+            ripple.className = 'ripple';
+            ripple.style.left = '50%';
+            ripple.style.top = '50%';
+            ripple.style.width = '20px';
+            ripple.style.height = '20px';
+            btn.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 700);
+        }
+
+        // ==========================================================================
+        // 3D TILT - MEMBER CARD
+        // ==========================================================================
+        (function () {
+            const card = document.getElementById('card');
+            const inner = document.getElementById('innerContent');
+
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = (e.clientX - rect.left) / rect.width - 0.5;
+                const y = (e.clientY - rect.top) / rect.height - 0.5;
+                inner.style.transform = `rotateX(${y * -12}deg) rotateY(${x * 16}deg)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                inner.style.transform = 'rotateX(0deg) rotateY(0deg)';
+            });
+        })();
+
+        // ==========================================================================
+        // 3D TILT - PODIO CARDS
+        // ==========================================================================
+        function handleTilt(e, wrapper) {
+            const card = wrapper.querySelector('.tilt-card');
+            const glare = wrapper.querySelector('.glare');
+            const rect = wrapper.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = ((y - centerY) / centerY) * -10;
+            const rotateY = ((x - centerX) / centerX) * 10;
+
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+            glare.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.15) 0%, transparent 50%)`;
+        }
+
+        function resetTilt(wrapper) {
+            const card = wrapper.querySelector('.tilt-card');
+            const glare = wrapper.querySelector('.glare');
+            card.style.transform = 'rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)';
+            glare.style.background = 'transparent';
+        }
+
+        // ==========================================================================
+        // FULL RANKING
+        // ==========================================================================
+        function buildFullRanking() {
+            const container = document.getElementById('fullRanking');
+            const sorted = [...members].sort((a, b) => b.vitorias - a.vitorias);
+
+            sorted.forEach((m, i) => {
+                const rank = i + 1;
+                let medal = '';
+                let borderColor = 'border-zinc-800/50';
+                let rankColor = 'text-zinc-500';
+
+                if (rank === 1) { medal = '🥇'; borderColor = 'border-purple-500/30'; rankColor = 'text-purple-400'; }
+                else if (rank === 2) { medal = '🥈'; borderColor = 'border-gray-400/30'; rankColor = 'text-gray-300'; }
+                else if (rank === 3) { medal = '🥉'; borderColor = 'border-amber-600/30'; rankColor = 'text-amber-600'; }
+
+                const bar = document.createElement('div');
+                bar.className = `flex items-center gap-4 bg-zinc-900/60 backdrop-blur-sm rounded-xl px-5 py-4 border ${borderColor} transition-all hover:bg-zinc-800/60 hover:scale-[1.01]`;
+                bar.innerHTML = `
+                    <span class="${rankColor} font-black text-lg w-8 text-center tabular-nums">${medal || '#' + rank}</span>
+                    <img src="${m.img}" alt="${m.name}" class="w-10 h-10 rounded-full object-cover border-2 border-zinc-700" loading="lazy">
+                    <div class="flex-1 min-w-0">
+                        <span class="text-white font-semibold text-sm truncate block">${m.name}</span>
+                        <span class="text-zinc-500 text-xs">${m.subtitle}</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-purple-400 font-bold text-lg tabular-nums">${m.vitorias}</span>
+                        <span class="text-zinc-500 text-xs block">vitórias</span>
+                    </div>
+                    <div class="text-right hidden sm:block">
+                        <span class="text-zinc-300 font-bold text-lg tabular-nums">${m.indicacoes}</span>
+                        <span class="text-zinc-500 text-xs block">indicações</span>
+                    </div>
+                `;
+                container.appendChild(bar);
+            });
+        }
+
+        // ==========================================================================
+        // FIREWORKS CANVAS ANIMATION
+        // ==========================================================================
+        function initFireworks() {
+            const canvas = document.getElementById('fireworksCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const section = canvas.parentElement;
+
+            function resize() {
+                canvas.width = section.offsetWidth;
+                canvas.height = section.offsetHeight;
+            }
+            resize();
+            window.addEventListener('resize', resize);
+
+            const particles = [];
+            const colors = [
+                ['#c084fc', '#a855f7', '#7c3aed'],
+                ['#67e8f9', '#22d3ee', '#06b6d4'],
+                ['#f472b6', '#ec4899', '#db2777'],
+                ['#fbbf24', '#f59e0b', '#d97706'],
+                ['#34d399', '#10b981', '#059669']
+            ];
+
+            class Particle {
+                constructor(x, y, color) {
+                    this.x = x;
+                    this.y = y;
+                    this.color = color;
+                    const angle = Math.random() * Math.PI * 2;
+                    const speed = Math.random() * 4 + 1.5;
+                    this.vx = Math.cos(angle) * speed;
+                    this.vy = Math.sin(angle) * speed;
+                    this.alpha = 1;
+                    this.decay = Math.random() * 0.015 + 0.008;
+                    this.size = Math.random() * 3 + 1;
+                    this.gravity = 0.04;
+                    this.trail = [];
+                }
+                update() {
+                    this.trail.push({ x: this.x, y: this.y, alpha: this.alpha * 0.5 });
+                    if (this.trail.length > 6) this.trail.shift();
+                    this.vy += this.gravity;
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    this.alpha -= this.decay;
+                }
+                draw() {
+                    // Trail
+                    this.trail.forEach((t, i) => {
+                        ctx.beginPath();
+                        ctx.arc(t.x, t.y, this.size * (i / this.trail.length) * 0.5, 0, Math.PI * 2);
+                        ctx.fillStyle = this.color;
+                        ctx.globalAlpha = t.alpha * 0.3;
+                        ctx.fill();
+                    });
+                    // Main particle
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = this.color;
+                    ctx.globalAlpha = this.alpha;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                }
+            }
+
+            function createBurst(x, y) {
+                const palette = colors[Math.floor(Math.random() * colors.length)];
+                for (let i = 0; i < 25; i++) {
+                    const color = palette[Math.floor(Math.random() * palette.length)];
+                    particles.push(new Particle(x, y, color));
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw();
+                    if (particles[i].alpha <= 0) particles.splice(i, 1);
+                }
+                requestAnimationFrame(animate);
+            }
+
+            // Launch fireworks at random intervals
+            function launchFirework() {
+                const x = Math.random() * canvas.width * 0.8 + canvas.width * 0.1;
+                const y = Math.random() * canvas.height * 0.5 + canvas.height * 0.1;
+                createBurst(x, y);
+            }
+
+            setInterval(launchFirework, 1800);
+            setInterval(launchFirework, 2800);
+            animate();
+        }
+
+        // ==========================================================================
+        // PREMIAÇÕES CAROUSEL
+        // ==========================================================================
+        let premIndex = 0;
+        const premTotal = 3;
+
+        function updatePremCarousel() {
+            const track = document.getElementById('premTrack');
+            track.style.transform = `translateX(-${premIndex * 100}%)`;
+
+            const dots = document.querySelectorAll('.prem-dot');
+            dots.forEach((d, i) => {
+                d.classList.toggle('active', i === premIndex);
+            });
+        }
+
+        function premPrev() {
+            premIndex = (premIndex - 1 + premTotal) % premTotal;
+            updatePremCarousel();
+        }
+
+        function premNext() {
+            premIndex = (premIndex + 1) % premTotal;
+            updatePremCarousel();
+        }
+
+        function goToPremSlide(idx) {
+            premIndex = idx;
+            updatePremCarousel();
+        }
+
+        // ==========================================================================
+        // PREMIAÇÕES ENTRANCE OBSERVER
+        // ==========================================================================
+        function setupPremEntranceObservers() {
+            const entranceObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            document.querySelectorAll('.prem-entrance, .prem-title-entrance').forEach(el => {
+                entranceObserver.observe(el);
+            });
+        }
+
+        // ==========================================================================
+        // SCROLL REVEAL
+        // ==========================================================================
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // ==========================================================================
+        // KEYBOARD NAVIGATION
+        // ==========================================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') prevMember();
+            if (e.key === 'ArrowRight') nextMember();
+        });
+
+        // ==========================================================================
+        // ESTRELAS DA TEMPORADA
+        // ==========================================================================
+        const defaultStarsData = {
+            0: [
+                { name: "GABS", title: "MVP do Mês", reason: "Dominou todas as categorias com performances extraordinárias", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", emoji: "👑", color: "from-purple-500 to-violet-600", badgeBg: "bg-purple-500/20 text-purple-300 border border-purple-500/30", wins: 5, nominations: 12 },
+                { name: "JUNO", title: "Revelação do Mês", reason: "Surpreendeu a todos com indicações impressionantes", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", emoji: "⭐", color: "from-cyan-500 to-blue-600", badgeBg: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30", wins: 3, nominations: 8 },
+                { name: "MAXS", title: "Ícone do Mês", reason: "Presença marcante e contribuições incríveis para a comunidade", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", emoji: "🔥", color: "from-pink-500 to-rose-600", badgeBg: "bg-pink-500/20 text-pink-300 border border-pink-500/30", wins: 4, nominations: 10 }
+            ],
+            1: [
+                { name: "TEMERYS", title: "MVP do Mês", reason: "Liderou com maestria e conquistou vitórias épicas", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", emoji: "👑", color: "from-purple-500 to-violet-600", badgeBg: "bg-purple-500/20 text-purple-300 border border-purple-500/30", wins: 4, nominations: 9 },
+                { name: "ASTRO", title: "Revelação do Mês", reason: "Brilhou intensamente com performances memoráveis", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", emoji: "⭐", color: "from-cyan-500 to-blue-600", badgeBg: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30", wins: 3, nominations: 7 },
+                { name: "KADU", title: "Ícone do Mês", reason: "Consistência impressionante ao longo de todo o mês", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", emoji: "🔥", color: "from-pink-500 to-rose-600", badgeBg: "bg-pink-500/20 text-pink-300 border border-pink-500/30", wins: 2, nominations: 8 }
+            ],
+            2: [
+                { name: "JANE BABADO", title: "MVP do Mês", reason: "Início de ano avassalador com vitórias memoráveis", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", emoji: "👑", color: "from-purple-500 to-violet-600", badgeBg: "bg-purple-500/20 text-purple-300 border border-purple-500/30", wins: 3, nominations: 11 },
+                { name: "TWIGS", title: "Revelação do Mês", reason: "Performance brilhante que marcou o início da temporada", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", emoji: "⭐", color: "from-cyan-500 to-blue-600", badgeBg: "bg-cyan-500/20 text-cyan-300 border border-cyan-500/30", wins: 2, nominations: 6 },
+                { name: "OLÁ GOSTARIA", title: "Ícone do Mês", reason: "Energia contagiante e momentos inesquecíveis", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", emoji: "🔥", color: "from-pink-500 to-rose-600", badgeBg: "bg-pink-500/20 text-pink-300 border border-pink-500/30", wins: 2, nominations: 5 }
+            ]
+        };
+        const starsData = JSON.parse(localStorage.getItem('ft_admin_stars') || 'null') || defaultStarsData;
+        // Ensure badge styles for admin-added stars
+        Object.values(starsData).forEach(month => month.forEach((s, i) => {
+            if (!s.color) { const c = ['from-purple-500 to-violet-600','from-cyan-500 to-blue-600','from-pink-500 to-rose-600']; s.color = c[i % 3]; }
+            if (!s.badgeBg) { const b = ['bg-purple-500/20 text-purple-300 border border-purple-500/30','bg-cyan-500/20 text-cyan-300 border border-cyan-500/30','bg-pink-500/20 text-pink-300 border border-pink-500/30']; s.badgeBg = b[i % 3]; }
+        }));
+
+        let currentMonth = 0;
+
+        function selectMonth(monthIdx) {
+            currentMonth = monthIdx;
+            // Update buttons
+            document.querySelectorAll('.month-btn').forEach((btn, i) => {
+                if (i === monthIdx) {
+                    btn.classList.add('active');
+                    btn.classList.remove('text-zinc-500');
+                    btn.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)';
+                    btn.style.color = '#fff';
+                    btn.style.boxShadow = '0 4px 20px rgba(168, 85, 247, 0.4)';
+                } else {
+                    btn.classList.remove('active');
+                    btn.classList.add('text-zinc-500');
+                    btn.style.background = 'transparent';
+                    btn.style.color = '';
+                    btn.style.boxShadow = 'none';
+                }
+            });
+            renderStars();
+        }
+
+        function renderStars() {
+            const grid = document.getElementById('starsGrid');
+            const stars = starsData[currentMonth] || [];
+
+            grid.innerHTML = '';
+            stars.forEach((star, i) => {
+                const card = document.createElement('div');
+                card.className = 'star-card';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(40px) scale(0.95)';
+                card.innerHTML = `
+                    <div class="star-glow-ring"></div>
+                    <div class="relative overflow-hidden">
+                        <img src="${star.img}" alt="${star.name}" class="star-card-img" loading="lazy">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none"></div>
+                        <div class="absolute top-4 left-4 z-5">
+                            <span class="star-badge ${star.badgeBg}">
+                                <span class="star-icon-float">${star.emoji}</span>
+                                ${star.title}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="star-card-content">
+                        <h3 class="heading-font text-2xl font-bold text-white tracking-tight mb-1">${star.name}</h3>
+                        <p class="text-zinc-400 text-sm leading-relaxed mb-4">${star.reason}</p>
+                        <div class="flex gap-3">
+                            <div class="star-stat flex-1">
+                                <span class="text-purple-400 font-bold text-xl tabular-nums">${star.wins}</span>
+                                <span class="text-zinc-500 text-[10px] tracking-widest font-medium">VITÓRIAS</span>
+                            </div>
+                            <div class="star-stat flex-1">
+                                <span class="text-purple-300 font-bold text-xl tabular-nums">${star.nominations}</span>
+                                <span class="text-zinc-500 text-[10px] tracking-widest font-medium">INDICAÇÕES</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+
+                // Staggered entrance animation
+                setTimeout(() => {
+                    card.style.transition = 'opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0) scale(1)';
+                }, 100 + i * 150);
+            });
+        }
+
+        // ==========================================================================
+        // INIT
+        // ==========================================================================
+        window.onload = function () {
+            startCountdown();
+            renderMember();
+            buildFullRanking();
+            initFireworks();
+            setupPremEntranceObservers();
+            selectMonth(0);
+        };
+    </script>
+
+</body>
+
+</html>
