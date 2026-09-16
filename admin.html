@@ -750,13 +750,18 @@
                     </div>
                     <button class="btn btn-primary" onclick="openStarModal()">➕ Nova Estrela</button>
                 </div>
-                <div class="form-group" style="max-width:250px;margin-bottom:1.5rem">
-                    <label class="form-label">Mês</label>
-                    <select class="form-select" id="starMonthSelect" onchange="renderStarsAdmin()">
-                        <option value="0">Março 2026</option>
-                        <option value="1">Fevereiro 2026</option>
-                        <option value="2">Janeiro 2026</option>
-                    </select>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;max-width:620px;margin-bottom:1.5rem">
+                    <div class="form-group" style="margin:0">
+                        <label class="form-label">Mês</label>
+                        <select class="form-select" id="starMonthSelect" onchange="onMonthChange()"></select>
+                    </div>
+                    <div class="form-group" style="margin:0">
+                        <label class="form-label">Nome exibido no site</label>
+                        <div style="display:flex;gap:.5rem">
+                            <input type="text" class="form-input" id="starMonthLabel" placeholder="SET 2026">
+                            <button class="btn btn-secondary" onclick="saveMonthLabel()">💾</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="card">
                     <div class="table-wrapper">
@@ -804,6 +809,9 @@
                 <div class="form-group"><label class="form-label">Vitórias</label><input type="number"
                         class="form-input" id="mVitorias" min="0"></div>
             </div>
+            <div class="form-group"><label class="form-label">Troféus — um por linha, no formato
+                    Categoria (PREMIAÇÃO)</label><textarea class="form-input" id="mTrophies" rows="4"
+                    placeholder="Best Series (EMMY26)&#10;Best New Member (OSCAT)"></textarea></div>
             <div style="display:flex;gap:0.75rem;margin-top:0.5rem">
                 <button class="btn btn-primary" onclick="saveMember()">💾 Salvar</button>
                 <button class="btn btn-secondary" onclick="closeModal('memberModal')">Cancelar</button>
@@ -875,50 +883,70 @@
 
         // ===== DEFAULT DATA =====
         const DEFAULT_MEMBERS = [
-            { name: "GABS", subtitle: "Song Of The Year (GRAMMY)", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", indicacoes: 53, vitorias: 18 },
-            { name: "JUNO", subtitle: "FLOPTROPICA ICON", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", indicacoes: 39, vitorias: 14 },
-            { name: "MAXS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", indicacoes: 59, vitorias: 13 },
-            { name: "JANE BABADO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", indicacoes: 52, vitorias: 7 },
-            { name: "TEMERYS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", indicacoes: 52, vitorias: 10 },
-            { name: "PEAGA", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/a1/b1/bc/a1b1bcacccbf5763b963bea07884914d.gif", indicacoes: 22, vitorias: 3 },
-            { name: "ASTRO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", indicacoes: 43, vitorias: 10 },
-            { name: "KADU", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", indicacoes: 57, vitorias: 9 },
-            { name: "TWIGS", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", indicacoes: 34, vitorias: 8 },
-            { name: "OLÁ GOSTARIA", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", indicacoes: 28, vitorias: 6 },
-            { name: "JV_SANDER", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/0c/77/b1/0c77b17836644990398a2066dae7ace9.gif", indicacoes: 19, vitorias: 4 },
-            { name: "VIRTUAL ANGEL", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/16/6d/ae/166dae7a017cdde26b6c4a163a833019.gif", indicacoes: 32, vitorias: 2 },
-            { name: "PIPO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/14/7a/2b/147a2b86f55c9d61a8c3868193366363.gif", indicacoes: 20, vitorias: 2 },
-            { name: "FLYER", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/79/0b/39/790b39d8d2786b3bc8bd3b5251a2f14b.gif", indicacoes: 15, vitorias: 2 },
-            { name: "JEFF", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/16/1b/e2/161be28fb727ad7f796f2c8bac86b6fd.gif", indicacoes: 19, vitorias: 0 },
-            { name: "FEBRE", subtitle: "FLOPTROPICA LEGEND", img: "https://i.scdn.co/image/ab676161000051740e53ff44ce2d3c035aa18d3c", indicacoes: 14, vitorias: 3 },
-            { name: "GABE", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/7e/ea/40/7eea40d4d4d4dbbed4949b63d321fef4.gif", indicacoes: 10, vitorias: 1 },
-            { name: "FERNANDES", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/65/f2/62/65f262f39fb5f947794940ef7e09f1e8.gif", indicacoes: 8, vitorias: 1 },
-            { name: "DANDELION", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/736x/a3/25/2b/a3252b02df64bb3374185426144939c1.jpg", indicacoes: 9, vitorias: 1 },
-            { name: "MENINO PERDIDO", subtitle: "FLOPTROPICA LEGEND", img: "https://i.pinimg.com/originals/ad/a6/ae/ada6aec3892091d47b4482c724e3521d.gif", indicacoes: 7, vitorias: 0 },
+            { name: "GABS", subtitle: "Best Series (EMMY26)", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", indicacoes: 88, vitorias: 30, trophies: ["Best Series (EMMY26)", "Best New Member (OSCAT)", "Album Of The Year (OSCAT II)"] },
+            { name: "MAXS", subtitle: "Artist Of The Year (VMA26)", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", indicacoes: 96, vitorias: 22, trophies: ["Best Pop Artist (GRAMMY)", "Melhor Atriz do Ano (GOLDEN GLOBE)", "Artist Of The Year (VMA26)"] },
+            { name: "JUNO", subtitle: "Member Of The Year (TBOTY)", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", indicacoes: 65, vitorias: 22, trophies: ["Member Of The Year (TBOTY)", "Album Of The Year (GRAMMY)", "Best Group (MAMA)"] },
+            { name: "KADU", subtitle: "Most Active Member (TBOTY)", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", indicacoes: 91, vitorias: 16, trophies: ["Most Active Member Of The Year (TBOTY)", "Adm Of The Year (OSCAT II)", "Album Of The Year (GRAMMY26)"] },
+            { name: "TEREMYS", subtitle: "Best K-pop Artist (GRAMMY)", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", indicacoes: 79, vitorias: 16, trophies: ["Melhor Protagonista Em Ascensão (TONY)", "Server Booster Of The Year (TBOTY)", "Best K-pop Artist (GRAMMY)"] },
+            { name: "TWIGS", subtitle: "Best New Member (TBOTY)", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", indicacoes: 66, vitorias: 15, trophies: ["Best New Member (TBOTY)", "Melhor Antagonista Em Ascensão (TONY)", "Best Album Cover (GRAMMY26)"] },
+            { name: "ASTRO", subtitle: "Best Discord Profile (GRAMMY)", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", indicacoes: 63, vitorias: 14, trophies: ["Best Discord Profile (GRAMMY)", "Best Group (MAMA)", "Melhor Editor (GOLDEN GLOBE)"] },
+            { name: "JANE BABADO", subtitle: "Melhor Atuação (TONY)", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", indicacoes: 87, vitorias: 12, trophies: ["Melhor Atuação (TONY)", "Server Booster Of The Year (GRAMMY)", "Mudo Of The Year (TBOTY)"] },
+            { name: "VIRTUAL ANGEL", subtitle: "Best Alternative Artist (GRAMMY26)", img: "https://i.pinimg.com/originals/16/6d/ae/166dae7a017cdde26b6c4a163a833019.gif", indicacoes: 60, vitorias: 11, trophies: ["Best New Artist (VMA)", "Best Alternative Artist (GRAMMY25)", "Best Alternative Artist (GRAMMY26)"] },
+            { name: "OLÁ GOSTARIA", subtitle: "Showstopper (TONY)", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", indicacoes: 30, vitorias: 7, trophies: ["Showstopper (TONY)", "Moment Of The Year In Call (TBOTY)"] },
+            { name: "FLYER", subtitle: "Best K-Popper Of The Year (TBOTY)", img: "https://i.pinimg.com/originals/79/0b/39/790b39d8d2786b3bc8bd3b5251a2f14b.gif", indicacoes: 35, vitorias: 7, trophies: ["Best K-Popper Of The Year (TBOTY)", "Melhor Elenco (GOLDEN GLOBE)", "Best Music Video (MAMA)"] },
+            { name: "PIPO", subtitle: "Best New Actor (TONY)", img: "https://i.pinimg.com/originals/14/7a/2b/147a2b86f55c9d61a8c3868193366363.gif", indicacoes: 44, vitorias: 6, trophies: ["Best New Actor (TONY)", "Ultimate Consumer Of The Year (TBOTY)", "Mudo Of The Year (GRAMMY26)"] },
+            { name: "GABE", subtitle: "Rising Star (OSCAT II)", img: "https://i.pinimg.com/originals/7e/ea/40/7eea40d4d4d4dbbed4949b63d321fef4.gif", indicacoes: 21, vitorias: 6, trophies: ["Melhor Direção de Dublagem (TONY)", "Best Music Video (MAMA)", "Rising Star (OSCAT II)"] },
+            { name: "PEAGA", subtitle: "Ghost Of The Year (TBOTY)", img: "https://i.pinimg.com/originals/a1/b1/bc/a1b1bcacccbf5763b963bea07884914d.gif", indicacoes: 41, vitorias: 5, trophies: ["Ghost Of The Year (TBOTY)", "Best Visual Effects (VMA)", "Best Music Video (MAMA)"] },
+            { name: "FEBRE", subtitle: "Artistic Legend Of The Year (TBOTY)", img: "https://i.scdn.co/image/ab676161000051740e53ff44ce2d3c035aa18d3c", indicacoes: 23, vitorias: 5, trophies: ["Artistic Legend Of The Year (TBOTY)", "Melhor Ator Coadjuvante (GOLDEN GLOBE)", "Song Of The Year (MAMA)"] },
+            { name: "JV_SANDER", subtitle: "Figurante Mais Memorável (TONY)", img: "https://i.pinimg.com/originals/0c/77/b1/0c77b17836644990398a2066dae7ace9.gif", indicacoes: 36, vitorias: 3, trophies: ["Figurante Mais Memorável (TONY)", "Prêmio Regional de Teatro (TONY)"] },
+            { name: "FERNANDES", subtitle: "Best New Actor (GOLDEN GLOBE)", img: "https://i.pinimg.com/originals/65/f2/62/65f262f39fb5f947794940ef7e09f1e8.gif", indicacoes: 13, vitorias: 3, trophies: ["Best New Actor (GOLDEN GLOBE)", "Best Stage Presence (MAMA)", "Song Of The Year (MAMA)"] },
+            { name: "BOONE", subtitle: "Rookie Of The Year (MAMA)", img: "https://i.pinimg.com/736x/cb/c2/a8/cbc2a81ea437f8f07b253409858f0b3b.jpg", indicacoes: 12, vitorias: 3, trophies: ["Rookie Of The Year (MAMA)", "Best Music Video (MAMA)"] },
+            { name: "SUNOZITO", subtitle: "Tryhard Of The Year (GRAMMY26)", img: "https://i.pinimg.com/736x/23/e2/ad/23e2ad6faa2836140f4d723935a0b71f.jpg", indicacoes: 13, vitorias: 3, trophies: ["Best Gamer (VMA26)", "Tryhard Of The Year (GRAMMY26)", "Best Actor in K-Drama (EMMY26)"] },
+            { name: "LAKE", subtitle: "Best New Member (OSCAT II)", img: "https://i.pinimg.com/736x/1a/76/79/1a767966c7238621c8e5beb0c131e653.jpg", indicacoes: 11, vitorias: 2, trophies: ["Best New Member (OSCAT II)", "Shipp Of The Year (OSCAT II)"] },
+            { name: "YDESERT", subtitle: "Best New Actor (EMMY26)", img: "https://i.pinimg.com/736x/d8/ad/e4/d8ade45f7bf4086b124a96279bd492d2.jpg", indicacoes: 6, vitorias: 2, trophies: ["Best New Actor (EMMY26)", "Server Booster Of The Month (EMMY26)"] },
+            { name: "DANDELION", subtitle: "Record Of The Year (GRAMMY)", img: "https://i.pinimg.com/736x/a3/25/2b/a3252b02df64bb3374185426144939c1.jpg", indicacoes: 10, vitorias: 1, trophies: ["Record Of The Year (GRAMMY)"] },
+            { name: "MENINO PERDIDO", subtitle: "Best Music Video (MAMA)", img: "https://i.pinimg.com/originals/ad/a6/ae/ada6aec3892091d47b4482c724e3521d.gif", indicacoes: 13, vitorias: 1, trophies: ["Best Music Video (MAMA)"] },
+            { name: "GUI", subtitle: "Best Gamer (GRAMMY26)", img: "https://i.pinimg.com/736x/fb/0d/ec/fb0dec26751119c174177e8653d400b5.jpg", indicacoes: 13, vitorias: 1, trophies: ["Best Gamer (GRAMMY26)"] },
+            { name: "KENNY", subtitle: "Best New Artist (VMA26)", img: "https://i.pinimg.com/736x/86/56/5b/86565b539f9eeecd8a22c67902662489.jpg", indicacoes: 6, vitorias: 1, trophies: ["Best New Artist (VMA26)"] },
+            { name: "YARLEI", subtitle: "Song Of The Year (MAMA)", img: "https://i.pinimg.com/736x/fb/00/f6/fb00f6d5e9dada2e76020321cf5c8250.jpg", indicacoes: 5, vitorias: 1, trophies: ["Song Of The Year (MAMA)"] },
+            { name: "THIAGO", subtitle: "Best New Artist (GRAMMY26)", img: "https://i.pinimg.com/736x/18/08/2e/18082eb66e9bbe93d955a88ad8c131ab.jpg", indicacoes: 5, vitorias: 1, trophies: ["Best New Artist (GRAMMY26)"] },
+            { name: "LUXZY", subtitle: "Best New Artist (GRAMMY26)", img: "https://i.pinimg.com/1200x/a7/2b/c7/a72bc771886bf0e3163bf6bc2d361895.jpg", indicacoes: 4, vitorias: 1, trophies: ["Best New Artist (GRAMMY26)"] },
+            { name: "NAIT", subtitle: "Best Discord Profile (GRAMMY26)", img: "https://i.pinimg.com/736x/e8/cc/79/e8cc799ba3f8ef1363cd1e92451028d4.jpg", indicacoes: 3, vitorias: 1, trophies: ["Best Discord Profile (GRAMMY26)"] },
+            { name: "DRACMA", subtitle: "Best New Artist (BAFTA)", img: "https://i.pinimg.com/736x/25/dd/03/25dd03f70907cb27654d3385f379be7c.jpg", indicacoes: 2, vitorias: 1, trophies: ["Best New Artist (BAFTA)"] },
+            { name: "SOFIA", subtitle: "Best K-Drama Actress (OSCAT II)", img: "https://i.pinimg.com/1200x/20/14/b3/2014b38efca51d324c6c3329ab67ae9c.jpg", indicacoes: 2, vitorias: 1, trophies: ["Best K-Drama Actress (OSCAT II)"] },
+            { name: "OPEDROF", subtitle: "Best Latin Artist (GRAMMY26)", img: "https://i.pinimg.com/736x/8d/93/f2/8d93f21f6aad16bee7632338d96edaf9.jpg", indicacoes: 1, vitorias: 1, trophies: ["Best Latin Artist (GRAMMY26)"] },
+            { name: "JEFF", subtitle: "Indicado • aguardando o primeiro troféu", img: "https://i.pinimg.com/originals/16/1b/e2/161be28fb727ad7f796f2c8bac86b6fd.gif", indicacoes: 19, vitorias: 0, trophies: [] },
+            { name: "MARCOS", subtitle: "Indicado • aguardando o primeiro troféu", img: "https://i.pinimg.com/736x/6b/87/91/6b879168834479d923aabe2ee56df44d.jpg", indicacoes: 6, vitorias: 0, trophies: [] },
+            { name: "NICOLAS", subtitle: "Indicado • aguardando o primeiro troféu", img: "https://i.pinimg.com/736x/86/77/db/8677db5b55440f3410c3459f6b15259f.jpg", indicacoes: 5, vitorias: 0, trophies: [] },
+            { name: "MEL", subtitle: "Indicado • aguardando o primeiro troféu", img: "https://i.pinimg.com/736x/ea/c5/56/eac5560aaa042cadf0a5f79696d41616.jpg", indicacoes: 3, vitorias: 0, trophies: [] },
+            { name: "DIGS", subtitle: "Indicado • aguardando o primeiro troféu", img: "https://i.pinimg.com/1200x/09/10/c8/0910c88ce5ff4bfcccae3542760da6fe.jpg", indicacoes: 2, vitorias: 0, trophies: [] },
+            { name: "ARTURO", subtitle: "Novo no elenco • temporada 2026", img: "https://i.pinimg.com/736x/a1/f7/50/a1f7507f8c3130aa04718d204f182696.jpg", indicacoes: 0, vitorias: 0, trophies: [] }
         ];
 
         const DEFAULT_STARS = {
             0: [
-                { name: "GABS", title: "MVP do Mês", reason: "Dominou todas as categorias", img: "https://i.pinimg.com/originals/ce/4a/f5/ce4af565e011969df2bd753431e34bc6.gif", emoji: "👑", wins: 5, nominations: 12 },
-                { name: "JUNO", title: "Revelação do Mês", reason: "Surpreendeu a todos", img: "https://i.pinimg.com/originals/64/b8/ae/64b8aef03762096808839d8d71fb385d.gif", emoji: "⭐", wins: 3, nominations: 8 },
-                { name: "MAXS", title: "Ícone do Mês", reason: "Presença marcante", img: "https://i.pinimg.com/originals/47/8b/38/478b38ff7e95508850bf869fe7c1bc0f.gif", emoji: "🔥", wins: 4, nominations: 10 }
+                { name: "YDESERT", title: "Revelação", reason: "Chegou chegando: dois troféus no EMMY26 logo na estreia.", img: "https://i.pinimg.com/736x/dc/0c/88/dc0c88c7381de2cbfe366fa4572e83f1.jpg", emoji: "⭐", wins: 2, nominations: 6 },
+                { name: "EMMA FROST", title: "Best Fictional Character", reason: "A personagem mais citada, imitada e idolatrada da temporada.", img: "https://i.pinimg.com/736x/34/34/41/3434419474039126b537863567d1d1f0.jpg", emoji: "👑", wins: 3, nominations: 7 },
+                { name: "O CONTO DE AIA", title: "Best Series", reason: "A série que dominou as conversas e os votos do servidor.", img: "https://m.media-amazon.com/images/S/pv-target-images/a08f7eac919200999d571593c3c45da6be56a0e794c07a79786a05123ef2857e.jpg", emoji: "📺", wins: 4, nominations: 9 }
             ],
             1: [
-                { name: "TEMERYS", title: "MVP do Mês", reason: "Liderou com maestria", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", emoji: "👑", wins: 4, nominations: 9 },
-                { name: "ASTRO", title: "Revelação do Mês", reason: "Brilhou intensamente", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", emoji: "⭐", wins: 3, nominations: 7 },
-                { name: "KADU", title: "Ícone do Mês", reason: "Consistência impressionante", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", emoji: "🔥", wins: 2, nominations: 8 }
+                { name: "TEREMYS", title: "MVP do Mês", reason: "Liderou com maestria e conquistou vitórias épicas.", img: "https://i.pinimg.com/originals/65/60/b6/6560b6a4401b1ad3f5e0c1917b2481a6.gif", emoji: "👑", wins: 4, nominations: 9 },
+                { name: "ASTRO", title: "Revelação do Mês", reason: "Brilhou intensamente com performances memoráveis.", img: "https://i.pinimg.com/736x/67/46/9d/67469d0601ae5f97cfcd53a5f3ea6b8b.jpg", emoji: "⭐", wins: 3, nominations: 7 },
+                { name: "KADU", title: "Ícone do Mês", reason: "Consistência impressionante ao longo de todo o mês.", img: "https://i.pinimg.com/originals/68/6c/c6/686cc6c78728cb1d000b63b578d9f662.gif", emoji: "🔥", wins: 2, nominations: 8 }
             ],
             2: [
-                { name: "JANE BABADO", title: "MVP do Mês", reason: "Início de ano avassalador", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", emoji: "👑", wins: 3, nominations: 11 },
-                { name: "TWIGS", title: "Revelação do Mês", reason: "Performance brilhante", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", emoji: "⭐", wins: 2, nominations: 6 },
-                { name: "OLÁ GOSTARIA", title: "Ícone do Mês", reason: "Energia contagiante", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", emoji: "🔥", wins: 2, nominations: 5 }
+                { name: "JANE BABADO", title: "MVP do Mês", reason: "Início de temporada avassalador com vitórias memoráveis.", img: "https://i.pinimg.com/originals/88/49/c1/8849c1fab34ae8208d20a4ce37aee46b.gif", emoji: "👑", wins: 3, nominations: 11 },
+                { name: "TWIGS", title: "Revelação do Mês", reason: "Performance brilhante que marcou a abertura do ano.", img: "https://i.pinimg.com/originals/fe/4e/05/fe4e0507b074736b1d3a8704d5fb5261.gif", emoji: "⭐", wins: 2, nominations: 6 },
+                { name: "OLÁ GOSTARIA", title: "Ícone do Mês", reason: "Energia contagiante e momentos inesquecíveis em call.", img: "https://i.pinimg.com/originals/03/c5/e5/03c5e5007e5f8177e302bc0e25589ce3.gif", emoji: "🔥", wins: 2, nominations: 5 }
             ]
         };
 
+        const DEFAULT_MONTH_LABELS = ['SET 2026', 'AGO 2026', 'JUL 2026'];
+
         const DEFAULT_RANKFLOP = [
-            { name: "Gabs", img: "https://i.pinimg.com/736x/f3/66/37/f366371618753e91d644ff41db4080e9.jpg", vitorias: 18, trophies: ["Song Of The Year (GRAMMY)", "Best New Member (OSCAT)", "Moment Of The Year (TBOTY)"] },
-            { name: "Juno", img: "https://i.pinimg.com/736x/90/8c/11/908c1191ad490bd4ec564e92a61aaf9b.jpg", vitorias: 14, trophies: ["Member Of The Year (TBOTY)", "Album Of The Year (GRAMMY)", "Best Series (EMMY)"] },
-            { name: "Maxs", img: "https://i.pinimg.com/736x/07/ec/15/07ec156db667ad32c0608020306a511f.jpg", vitorias: 13, trophies: ["Best Pop Artist (GRAMMY)", "Melhor Atriz do Ano (GOLDEN GLOBE)", "Best Villain (EMMY)"] }
+            { name: "Gabs", img: "https://i.pinimg.com/736x/f3/66/37/f366371618753e91d644ff41db4080e9.jpg", vitorias: 30, trophies: ["Best Series (EMMY26)", "Best New Member (OSCAT)", "Album Of The Year (OSCAT II)"] },
+            { name: "Maxs", img: "https://i.pinimg.com/736x/07/ec/15/07ec156db667ad32c0608020306a511f.jpg", vitorias: 22, trophies: ["Best Pop Artist (GRAMMY)", "Melhor Atriz do Ano (GOLDEN GLOBE)", "Artist Of The Year (VMA26)"] },
+            { name: "Juno", img: "https://i.pinimg.com/736x/90/8c/11/908c1191ad490bd4ec564e92a61aaf9b.jpg", vitorias: 22, trophies: ["Member Of The Year (TBOTY)", "Album Of The Year (GRAMMY)", "Best Group (MAMA)"] }
         ];
 
         // ===== DATA HELPERS =====
@@ -931,7 +959,8 @@
         function getMembers() { return getData('members', DEFAULT_MEMBERS); }
         function getStars() { return getData('stars', DEFAULT_STARS); }
         function getRankflop() { return getData('rankflop', DEFAULT_RANKFLOP); }
-        function getCountdown() { return localStorage.getItem('ft_admin_countdown') || '2026-02-01T20:00'; }
+        function getMonthLabels() { return getData('star_labels', DEFAULT_MONTH_LABELS); }
+        function getCountdown() { return localStorage.getItem('ft_admin_countdown') || '2026-12-20T20:00'; }
 
         // ===== TOAST =====
         function toast(msg, type = 'success') {
@@ -989,6 +1018,7 @@
         function initDashboard() {
             document.getElementById('countdownDate').value = getCountdown();
             renderMembersAdmin();
+            renderMonthOptions();
             renderStarsAdmin();
             renderRankflopAdmin();
         }
@@ -1015,7 +1045,7 @@
             tbody.innerHTML = members.map((m, i) => `<tr>
         <td><div class="member-cell"><img src="${m.img}" alt="${m.name}" loading="lazy"><span style="font-weight:600">${m.name}</span></div></td>
         <td style="color:var(--text-secondary)">${m.subtitle}</td>
-        <td>${m.indicacoes}</td><td style="color:var(--accent-light);font-weight:700">${m.vitorias}</td>
+        <td>${m.indicacoes}</td><td style="color:var(--text-muted)">${(m.trophies || []).length}</td><td style="color:var(--accent-light);font-weight:700">${m.vitorias}</td>
         <td><div style="display:flex;gap:0.4rem">
             <button class="btn btn-sm btn-secondary" onclick="editMember(${i})">✏️</button>
             <button class="btn btn-sm btn-danger" onclick="deleteMember(${i})">🗑</button>
@@ -1032,8 +1062,9 @@
                 document.getElementById('mImg').value = m.img;
                 document.getElementById('mIndicacoes').value = m.indicacoes;
                 document.getElementById('mVitorias').value = m.vitorias;
+                document.getElementById('mTrophies').value = (m.trophies || []).join('\n');
             } else {
-                ['mName', 'mSubtitle', 'mImg', 'mIndicacoes', 'mVitorias'].forEach(id => document.getElementById(id).value = '');
+                ['mName', 'mSubtitle', 'mImg', 'mIndicacoes', 'mVitorias', 'mTrophies'].forEach(id => document.getElementById(id).value = '');
             }
             document.getElementById('memberModal').classList.add('active');
         }
@@ -1050,7 +1081,8 @@
                 subtitle: document.getElementById('mSubtitle').value.trim(),
                 img: document.getElementById('mImg').value.trim(),
                 indicacoes: parseInt(document.getElementById('mIndicacoes').value) || 0,
-                vitorias: parseInt(document.getElementById('mVitorias').value) || 0
+                vitorias: parseInt(document.getElementById('mVitorias').value) || 0,
+                trophies: document.getElementById('mTrophies').value.split('\n').map(t => t.trim()).filter(Boolean)
             };
             if (!obj.name) return toast('Nome é obrigatório', 'error');
             const members = getMembers();
@@ -1060,6 +1092,31 @@
         }
 
         // ===== STARS =====
+        function renderMonthOptions() {
+            const labels = getMonthLabels();
+            const sel = document.getElementById('starMonthSelect');
+            const cur = sel.value || '0';
+            sel.innerHTML = labels.map((l, i) => `<option value="${i}">${l}</option>`).join('');
+            sel.value = cur;
+            document.getElementById('starMonthLabel').value = labels[parseInt(sel.value, 10)] || '';
+        }
+        function onMonthChange() {
+            const labels = getMonthLabels();
+            const i = parseInt(document.getElementById('starMonthSelect').value, 10);
+            document.getElementById('starMonthLabel').value = labels[i] || '';
+            renderStarsAdmin();
+        }
+        function saveMonthLabel() {
+            const i = parseInt(document.getElementById('starMonthSelect').value, 10);
+            const labels = getMonthLabels();
+            const val = document.getElementById('starMonthLabel').value.trim();
+            if (!val) return toast('Digite um nome para o mês', 'error');
+            labels[i] = val;
+            setData('star_labels', labels);
+            renderMonthOptions();
+            toast('Nome do mês atualizado!');
+        }
+
         function renderStarsAdmin() {
             const month = parseInt(document.getElementById('starMonthSelect').value);
             const stars = getStars();
